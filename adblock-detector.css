@@ -1,116 +1,3 @@
-/* Styles pour le modal de détection de bloqueur de publicités */
-#adblockModal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.adblock-modal-content {
-    background-color: #202040;
-    padding: 30px;
-    border-radius: 10px;
-    color: white;
-    max-width: 600px;
-    text-align: center;
-    animation: adblock-modal-appear 0.5s ease forwards;
-}
-
-@keyframes adblock-modal-appear {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.adblock-warning-title {
-    color: #ff5252;
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-.adblock-warning-message {
-    margin-bottom: 15px;
-    line-height: 1.5;
-}
-
-.adblock-warning-box {
-    background: rgba(255, 82, 82, 0.1);
-    border-left: 4px solid #ff5252;
-    padding: 15px;
-    text-align: left;
-    margin: 20px 0;
-}
-
-.adblock-warning-instructions {
-    margin-bottom: 20px;
-}
-
-.adblock-refresh-button {
-    background: linear-gradient(90deg, #64B5F6, #2196F3);
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.adblock-refresh-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Style pour le message de remerciement */
-.adblock-thank-you {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 9998;
-    animation: adblock-thank-you-appear 0.5s ease forwards;
-}
-
-@keyframes adblock-thank-you-appear {
-    from {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Style pour contenu du site avec bloqueur activé */
-.adblock-detected body {
-    overflow: hidden;
-}
-
-.adblock-detected main,
-.adblock-detected .content,
-.adblock-detected #content,
-.adblock-detected article {
-    opacity: 0.3;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-}
-
 /* Reset et base */
 * {
     margin: 0;
@@ -121,14 +8,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 body {
-    font-family: 'Montserrat', 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0f0f1a 0%, #202040 100%);
+    font-family: 'Montserrat', sans-serif;
+    background: #4abcfa; /* Bleu ciel comme dans Flappy Bird */
     color: #fff;
     overflow-x: hidden;
     line-height: 1.6;
 }
 
-/* Effet de particules avec moins de densité */
+/* Effet de nuages avec moins de densité */
 .particles {
     position: fixed;
     top: 0;
@@ -141,7 +28,7 @@ body {
 
 .particle {
     position: absolute;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 50%;
     animation: float 20s infinite linear;
 }
@@ -163,14 +50,14 @@ body {
 }
 
 header {
-    background: rgba(25, 25, 60, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(0, 166, 81, 0.8); /* Vert comme les tuyaux */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     padding: 1.5rem 0;
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 3px solid #000;
 }
 
 .header-inner {
@@ -183,12 +70,10 @@ header {
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 600;
-    background: linear-gradient(90deg, #64B5F6, #81D4FA);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffde59; /* Jaune comme l'oiseau */
+    text-shadow: 2px 2px 0 #000;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -208,18 +93,16 @@ main {
 /* Style pour les conteneurs de pub */
 .ad-container {
     overflow: hidden;
-    border-radius: 1rem;
-    background: rgba(35, 35, 65, 0.4);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 5px 0 #8B4513, 0 10px 25px rgba(0, 0, 0, 0.15);
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 1.5rem;
     position: relative;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 3px solid #000;
     z-index: 5;
 }
 
@@ -229,15 +112,15 @@ main {
     position: absolute;
     inset: 0;
     background: linear-gradient(45deg, 
-        rgba(100, 181, 246, 0.08),
-        rgba(129, 212, 250, 0.08));
+        rgba(255, 222, 89, 0.1),
+        rgba(0, 166, 81, 0.1));
     opacity: 0;
     transition: opacity 0.4s ease;
 }
 
 .ad-container:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 0 #8B4513, 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
 .ad-container:hover::before {
@@ -283,35 +166,33 @@ main {
     grid-column: span 4;
 }
 
-/* Notification de bloqueur de pub */
-.ad-blocker-message {
-    display: none;
+/* Styles pour le modal de détection de bloqueur de publicités */
+#adblockModal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(15, 15, 40, 0.95);
-    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    padding: 2rem;
 }
 
-.message-content {
-    background: rgba(35, 35, 65, 0.8);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 3rem;
-    border-radius: 1rem;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+.adblock-modal-content {
+    background-color: #4abcfa; /* Bleu ciel comme dans Flappy Bird */
+    padding: 30px;
+    border-radius: 10px;
+    color: white;
     max-width: 600px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: appear 0.5s ease-out;
+    text-align: center;
+    animation: adblock-modal-appear 0.5s ease forwards;
+    border: 4px solid #000;
+    box-shadow: 0 10px 0 #003366, 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
-@keyframes appear {
+@keyframes adblock-modal-appear {
     from {
         opacity: 0;
         transform: translateY(30px);
@@ -322,27 +203,149 @@ main {
     }
 }
 
-.message-content h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #64B5F6;
-    font-weight: 600;
+.adblock-warning-title {
+    color: #ffde59; /* Jaune comme l'oiseau */
+    margin-bottom: 20px;
+    font-size: 28px;
+    text-shadow: 2px 2px 0 #000;
 }
 
-.message-content p {
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-    color: #f0f0f0;
-    line-height: 1.7;
+.adblock-warning-message {
+    margin-bottom: 15px;
+    line-height: 1.5;
+    color: #fff;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.adblock-warning-box {
+    background: #00a651; /* Vert comme les tuyaux */
+    border: 3px solid #000;
+    padding: 15px;
+    text-align: left;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+.adblock-warning-instructions {
+    margin-bottom: 20px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.adblock-refresh-button {
+    background: #f39c12; /* Orange comme les boutons du jeu */
+    border: 3px solid #000;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    box-shadow: 0 5px 0 #c87f0a;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.adblock-refresh-button:hover {
+    transform: translateY(-2px);
+}
+
+.adblock-refresh-button:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 #c87f0a;
+}
+
+/* Style pour le message de remerciement */
+.adblock-thank-you {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #00a651; /* Vert comme les tuyaux */
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    border: 3px solid #000;
+    box-shadow: 0 5px 0 #005a2c, 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 9998;
+    animation: adblock-thank-you-appear 0.5s ease forwards;
+    text-shadow: 1px 1px 0 #000;
+}
+
+@keyframes adblock-thank-you-appear {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Style pour contenu du site avec bloqueur activé */
+.adblock-detected body {
+    overflow: hidden;
+}
+
+.adblock-detected main,
+.adblock-detected .content,
+.adblock-detected #content,
+.adblock-detected article {
+    opacity: 0.3;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    filter: blur(5px);
+}
+
+/* Animation supplémentaire pour attirer l'attention */
+.adblock-refresh-button {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Style Mino.io pour l'alerte */
+.adblock-modal-content::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 40px;
+    background: #ffde59; /* Jaune comme l'oiseau */
+    border-radius: 50%;
+    border: 3px solid #000;
+}
+
+.adblock-modal-content::after {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: calc(50% + 25px);
+    width: 15px;
+    height: 10px;
+    background: #ff7979; /* Rouge comme le bec */
+    border-radius: 50%;
+    border: 2px solid #000;
 }
 
 /* Pied de page */
 footer {
-    background: rgba(25, 25, 60, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: #8B4513; /* Marron comme le sol */
     padding: 2rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 5px solid #00a651; /* Vert comme l'herbe */
 }
 
 .footer-inner {
@@ -362,45 +365,112 @@ footer {
 }
 
 .footer-links a {
-    color: rgba(255, 255, 255, 0.7);
+    color: #ffde59; /* Jaune comme l'oiseau */
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: transform 0.2s ease;
     font-size: 0.9rem;
-    position: relative;
-}
-
-.footer-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #64B5F6, #81D4FA);
-    transition: width 0.3s ease;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #000;
 }
 
 .footer-links a:hover {
-    color: #fff;
-}
-
-.footer-links a:hover::after {
-    width: 100%;
+    transform: translateY(-3px);
 }
 
 .copyright {
-    color: rgba(255, 255, 255, 0.5);
+    color: #fff;
     font-size: 0.9rem;
+    text-shadow: 1px 1px 0 #000;
 }
 
-/* Pour mise en évidence des dimensions de pub (à enlever si souhaité) */
+/* Pour mise en évidence des dimensions de pub */
 .ad-size {
     position: absolute;
     bottom: 5px;
     right: 5px;
     font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(0, 0, 0, 0.5);
     pointer-events: none;
+}
+
+/* Notification de bloqueur de pub */
+.ad-blocker-message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 15, 40, 0.95);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+.message-content {
+    background: #4abcfa; /* Bleu ciel comme dans Flappy Bird */
+    padding: 3rem;
+    border-radius: 1rem;
+    border: 4px solid #000;
+    box-shadow: 0 10px 0 #003366, 0 20px 50px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    animation: appear 0.5s ease-out;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #ffde59; /* Jaune comme l'oiseau */
+    font-weight: 600;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.message-content p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #fff;
+    line-height: 1.7;
+    text-shadow: 1px 1px 0 #000;
+}
+
+/* Z-index pour les publicités */
+iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformanceformat.com"] {
+    z-index: 10;
+    position: relative !important;
+    pointer-events: auto !important;
+}
+
+/* Styles pour intégrer Flappy Bird */
+.game-container {
+    grid-column: span 8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 450px;
+}
+
+.game-frame {
+    width: 100%;
+    height: 650px;
+    border: none;
+    border-radius: 10px;
+    border: 4px solid #000;
+    box-shadow: 0 10px 0 #003366, 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 /* Media queries pour le responsive */
@@ -418,40 +488,6 @@ footer {
     
     .sidebar-section .ad-skyscraper {
         grid-column: span 3;
-    }
-    
-    .sidebar-section .ad-square {
-        grid-column: span 5;
-    }
-    
-    .sidebar-section .ad-mobile {
-        grid-column: span 4;
-    }
-}
-
-@media (max-width: 992px) {
-    main {
-        gap: 1.5rem;
-    }
-    
-    .ad-skyscraper {
-        grid-column: span 4;
-    }
-    
-    .ad-square {
-        grid-column: span 6;
-    }
-    
-    .ad-mobile {
-        grid-column: span 6;
-    }
-    
-    .ad-rectangle {
-        grid-column: span 12;
-    }
-    
-    .sidebar-section .ad-skyscraper {
-        grid-column: span 4;
     }
     
     .sidebar-section .ad-square {
