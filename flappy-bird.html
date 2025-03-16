@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mino.io</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            background: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        #game-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            background: #4abcfa; /* Fond bleu ciel comme dans l'image 2 */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        
+        #bird {
+            position: absolute;
+            width: 40px;
+            height: 30px;
+            background: #ffde59;
+            border-radius: 50%;
+            top: 50%;
+            left: 50px;
+            transition: transform 0.1s;
+            z-index: 5;
+        }
+        
+        #bird:after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 10px;
+            background: #ff7979;
+            right: -5px;
+            top: 10px;
+            border-radius: 50%;
+        }
+        
+        #bird:before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #000;
+            border-radius: 50%;
+            right: 25px;
+            top: 8px;
+        }
+
+        .pipe {
+            position: absolute;
+            width: 60px;
+            background-color: #00a651; /* Vert comme dans les images */
+            border: 2px solid #000;
+            z-index: 2;
+        }
+        
+        .pipe-cap {
+            position: absolute;
+            width: 70px;
+            height: 25px;
+            background-color: #ffd900; /* Jaune comme dans l'image 2 */
+            border: 2px solid #000;
+            left: -5px;
+            z-index: 3;
+        }
+        
+        .pipe-top .pipe-cap {
+            bottom: -2px;
+        }
+        
+        .pipe-bottom .pipe-cap {
+            top: -2px;
+        }
+        
+        #score {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+        
+        #high-score {
+            position: absolute;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            font-weight: bold;
+            color: gold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+        
+        #start-screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+        
+        #start-screen h1 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        #start-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        #start-button:hover {
+            background: #e67e22;
+        }
+        
+        #game-over {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+        
+        #game-over h1 {
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        #final-score {
+            color: white;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        
+        #best-score {
+            color: gold;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        #restart-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        #restart-button:hover {
+            background: #e67e22;
+        }
+        
+        #ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            background: #8B4513; /* Marron comme dans l'image 2 */
+            z-index: 4;
+        }
+        
+        #grass {
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            background: #00a651; /* Vert comme dans l'image 2 */
+            bottom: 100px;
+            border-radius: 50% 50% 0 0 / 20px;
+            z-index: 1;
+        }
+        
+        .new-record {
+            animation: glow 1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #e60073, 0 0 20px #e60073;
+            }
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #ff4da6, 0 0 30px #ff4da6, 0 0 40px #ff4da6;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="score">0</div>
+        <div id="high-score">Record: 0</div>
+        <div id="bird"></div>
+        <div id="grass"></div>
+        <div id="ground"></div>
+        
+        <div id="start-screen">
+            <h1>Mino.io</h1>
+            <button id="start-button">Commencer</button>
+        </div>
+        
+        <div id="game-over">
+            <h1>Game Over!</h1>
+            <div id="final-score">Score: 0</div>
+            <div id="best-score">Record: 0</div>
+            <button id="restart-button">Rejouer</button>
+        </div>
+    </div>
+
+    <script>
+        const bird = document.getElementById('bird');
+        const gameContainer = document.getElementById('game-container');
+        const scoreDisplay = document.getElementById('score');
+        const highScoreDisplay = document.getElementById('high-score');
+        const startScreen = document.getElementById('start-screen');
+        const gameOverScreen = document.getElementById('game-over');
+        const startButton = document.getElementById('start-button');
+        const restartButton = document.getElementById('restart-button');
+        const finalScoreDisplay = document.getElementById('final-score');
+        const bestScoreDisplay = document.getElementById('best-score');
+        const groundElement = document.getElementById('ground');
+        
+        let animationFrameId;
+        let lastPipeTime = 0;
+        let score = 0;
+        let highScore = 0;
+        let pipeCreationInterval = 2000; // Temps initial entre la création des tuyaux (ms)
+        let minPipeCreationInterval = 1200; // Temps minimal entre les tuyaux
+        let gravity = 0.6;
+        let birdVelocity = 0;
+        let birdPosition = 300;
+        let isGameOver = false;
+        let pipes = [];
+        let gameSpeed = 2; // Vitesse de déplacement des tuyaux
+        let maxGameSpeed = 5; // Vitesse maximale
+        let lastTimestamp = 0;
+        let initialGap = 230; // Espace initial entre les tuyaux (large)
+        let minGap = 160; // Espace minimal entre les tuyaux
+        let isNewRecord = false;
+        
+        // Fonction pour charger le meilleur score depuis le localStorage
+        function loadHighScore() {
+            const savedHighScore = localStorage.getItem('flappyBirdHighScore');
+            if (savedHighScore !== null) {
+                highScore = parseInt(savedHighScore);
+                highScoreDisplay.textContent = `Record: ${highScore}`;
+                bestScoreDisplay.textContent = `Record: ${highScore}`;
+            }
+        }
+        
+        // Fonction pour sauvegarder le meilleur score
+        function saveHighScore() {
+            localStorage.setItem('flappyBirdHighScore', highScore.toString());
+        }
+        
+        // Charger le meilleur score au chargement de la page
+        loadHighScore();
+        
+        function startGame() {
+            // Masquer l'écran d'accueil
+            startScreen.style.display = 'none';
+            
+            // Réinitialiser le jeu
+            score = 0;
+            scoreDisplay.textContent = score;
+            birdVelocity = 0;
+            birdPosition = 300;
+            bird.style.top = birdPosition + 'px';
+            pipes = [];
+            pipeCreationInterval = 2000;
+            gameSpeed = 2;
+            lastPipeTime = 0;
+            
+            // Supprimer tous les tuyaux existants
+            document.querySelectorAll('.pipe').forEach(pipe => pipe.remove());
+            
+            // Réinitialiser l'état du jeu
+            isGameOver = false;
+            isNewRecord = false;
+            
+            // Enlever l'animation du record si présente
+            bestScoreDisplay.classList.remove('new-record');
+            
+            // Masquer l'écran de fin
+            gameOverScreen.style.display = 'none';
+            
+            // Démarrer la boucle de jeu
+            lastTimestamp = performance.now();
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+        
+        function gameLoop(timestamp) {
+            if (isGameOver) return;
+            
+            // Calcul du temps écoulé depuis la dernière frame
+            const deltaTime = timestamp - lastTimestamp;
+            lastTimestamp = timestamp;
+            
+            // Vérifier s'il est temps de créer un nouveau tuyau
+            if (timestamp - lastPipeTime > pipeCreationInterval) {
+                createPipe();
+                lastPipeTime = timestamp;
+            }
+            
+            // Mettre à jour la position de l'oiseau
+            updateBird(deltaTime);
+            
+            // Mettre à jour les tuyaux
+            updatePipes(deltaTime);
+            
+            // Continuer la boucle de jeu
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+        
+        function updateBird(deltaTime) {
+            // Appliquer la gravité et mettre à jour la position
+            birdVelocity += gravity;
+            birdPosition += birdVelocity;
+            bird.style.top = birdPosition + 'px';
+            bird.style.transform = `rotate(${birdVelocity * 3}deg)`;
+            
+            // Empêcher l'oiseau de sortir par le haut
+            if (birdPosition < 0) {
+                birdPosition = 0;
+                birdVelocity = 0;
+            }
+            
+            // Vérifier la collision avec le sol
+            const groundRect = groundElement.getBoundingClientRect();
+            const birdRect = bird.getBoundingClientRect();
+            
+            if (birdRect.bottom > groundRect.top) {
+                gameOver();
+            }
+        }
+        
+        function updatePipes(deltaTime) {
+            // Calculer le déplacement pour cette frame
+            const moveAmount = (gameSpeed * deltaTime) / 16; // Normaliser pour ~60fps
+            
+            for (let i = pipes.length - 1; i >= 0; i--) {
+                const pipe = pipes[i];
+                const pipeTop = document.getElementById(`pipe-top-${pipe.id}`);
+                const pipeBottom = document.getElementById(`pipe-bottom-${pipe.id}`);
+                
+                if (!pipeTop || !pipeBottom) {
+                    pipes.splice(i, 1);
+                    continue;
+                }
+                
+                // Déplacer le tuyau (de droite à gauche)
+                pipe.position -= moveAmount;
+                pipeTop.style.left = `${pipe.position}px`;
+                pipeBottom.style.left = `${pipe.position}px`;
+                
+                // Vérifier les collisions
+                if (checkCollision(bird, pipeTop) || checkCollision(bird, pipeBottom)) {
+                    gameOver();
+                }
+                
+                // Ajouter un point lorsque l'oiseau passe un tuyau
+                if (!pipe.counted && pipe.position + 60 < bird.offsetLeft) {
+                    score++;
+                    scoreDisplay.textContent = score;
+                    pipe.counted = true;
+                    
+                    // Accélérer le jeu et réduire l'écart entre les tuyaux
+                    if (score % 5 === 0) {
+                        // Augmenter la vitesse, mais avec une limite
+                        gameSpeed = Math.min(maxGameSpeed, gameSpeed + 0.4);
+                        
+                        // Réduire l'intervalle de création des tuyaux, mais avec une limite
+                        pipeCreationInterval = Math.max(minPipeCreationInterval, pipeCreationInterval - 100);
+                    }
+                }
+                
+                // Supprimer le tuyau lorsqu'il est hors écran
+                if (pipe.position < -70) {
+                    pipeTop.remove();
+                    pipeBottom.remove();
+                    pipes.splice(i, 1);
+                }
+            }
+        }
+        
+        function createPipe() {
+            if (isGameOver) return;
+            
+            const pipeId = Date.now(); // Un ID unique basé sur le timestamp
+            const pipePosition = gameContainer.offsetWidth; // Position initiale à droite de l'écran
+            
+            // Calculer l'écart entre les tuyaux en fonction du score
+            // L'écart diminue progressivement de initialGap à minGap
+            const gapReduction = Math.min(score * 2, initialGap - minGap);
+            const currentGap = initialGap - gapReduction;
+            
+            // Position aléatoire de l'espace entre les tuyaux
+            const randomHeight = Math.floor(Math.random() * 250) + 100;
+            
+            // Créer le tuyau supérieur
+            const pipeTop = document.createElement('div');
+            pipeTop.className = 'pipe pipe-top';
+            pipeTop.id = `pipe-top-${pipeId}`;
+            pipeTop.style.height = `${randomHeight}px`;
+            pipeTop.style.left = `${pipePosition}px`;
+            
+            // Ajouter l'embout jaune au tuyau supérieur
+            const capTop = document.createElement('div');
+            capTop.className = 'pipe-cap';
+            pipeTop.appendChild(capTop);
+            
+            gameContainer.appendChild(pipeTop);
+            
+            // Créer le tuyau inférieur
+            const pipeBottom = document.createElement('div');
+            pipeBottom.className = 'pipe pipe-bottom';
+            pipeBottom.id = `pipe-bottom-${pipeId}`;
+            pipeBottom.style.height = `${gameContainer.offsetHeight - randomHeight - currentGap - 100}px`;
+            pipeBottom.style.bottom = '100px';
+            pipeBottom.style.left = `${pipePosition}px`;
+            
+            // Ajouter l'embout jaune au tuyau inférieur
+            const capBottom = document.createElement('div');
+            capBottom.className = 'pipe-cap';
+            pipeBottom.appendChild(capBottom);
+            
+            gameContainer.appendChild(pipeBottom);
+            
+            // Ajouter le tuyau à la liste des tuyaux
+            pipes.push({
+                id: pipeId,
+                position: pipePosition,
+                counted: false
+            });
+        }
+        
+        function checkCollision(birdElement, pipeElement) {
+            const birdRect = birdElement.getBoundingClientRect();
+            const pipeRect = pipeElement.getBoundingClientRect();
+            
+            return !(
+                birdRect.right < pipeRect.left ||
+                birdRect.left > pipeRect.right ||
+                birdRect.bottom < pipeRect.top ||
+                birdRect.top > pipeRect.bottom
+            );
+        }
+        
+        function gameOver() {
+            isGameOver = true;
+            cancelAnimationFrame(animationFrameId);
+            
+            finalScoreDisplay.textContent = `Score: ${score}`;
+            
+            // Vérifier si c'est un nouveau record
+            if (score > highScore) {
+                isNewRecord = true;
+                highScore = score;
+                saveHighScore();
+                bestScoreDisplay.textContent = `Nouveau Record: ${highScore}`;
+                bestScoreDisplay.classList.add('new-record');
+                highScoreDisplay.textContent = `Record: ${highScore}`;
+            } else {
+                bestScoreDisplay.textContent = `Record: ${highScore}`;
+            }
+            
+            gameOverScreen.style.display = 'flex';
+        }
+        
+        function jump() {
+            if (isGameOver) return;
+            birdVelocity = -9; // Force du saut
+        }
+        
+        // Événements du jeu
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space') {
+                jump();
+            }
+        });
+        
+        gameContainer.addEventListener('click', function() {
+            jump();
+        });
+        
+        startButton.addEventListener('click', startGame);
+        restartButton.addEventListener('click', startGame);
+    </script>
+</body>
+</html>
