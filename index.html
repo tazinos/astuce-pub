@@ -3,392 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="adblock-detector-js.js" defer></script>
-	<link rel="stylesheet" href="adblock-detector.css">
+    <script src="adblock-detector-js.js" defer></script>
+    <link rel="stylesheet" href="adblock-detector.css">
     <title>📢 Espace Publicitaire Premium</title>
-    <style>
-        /* Reset et base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Montserrat', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f0f1a 0%, #202040 100%);
-            color: #fff;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-        
-        /* Effet de particules avec moins de densité */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            animation: float 20s infinite linear;
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translateY(0) rotate(0deg);
-            }
-            100% {
-                transform: translateY(-100vh) rotate(360deg);
-            }
-        }
-        
-        /* Layout principal */
-        .wrapper {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        header {
-            background: rgba(25, 25, 60, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 1.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        
-        .header-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 600;
-            background: linear-gradient(90deg, #64B5F6, #81D4FA);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        /* Contenu principal avec layout pour publicités */
-        main {
-            flex: 1;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            grid-gap: 2rem;
-        }
-        
-        /* Style pour les conteneurs de pub */
-.ad-container {
-    overflow: hidden;
-    border-radius: 1rem;
-    background: rgba(35, 35, 65, 0.4);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1.5rem;
-    position: relative;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    z-index: 5; /* Ajout d'un z-index pour s'assurer que la publicité est au-dessus */
-}
-        
-.ad-container::before {
-    pointer-events: none; /* Cette ligne est importante */
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(45deg, 
-        rgba(100, 181, 246, 0.08),
-        rgba(129, 212, 250, 0.08));
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-        
-        .ad-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        }
-        
-        .ad-container:hover::before {
-            opacity: 1;
-        }
-        
-        /* Disposition des publicités dans la grille */
-        .ad-banner {
-            grid-column: span 12;
-            min-height: 120px;
-        }
-        
-        .ad-square {
-            grid-column: span 4;
-            min-height: 300px;
-        }
-        
-        .ad-mobile {
-            grid-column: span 4;
-            min-height: 100px;
-        }
-        
-        .ad-skyscraper {
-            grid-column: span 2;
-            min-height: 650px;
-        }
-        
-        .ad-rectangle {
-            grid-column: span 6;
-            min-height: 180px;
-        }
-        
-        /* Section principale de contenu */
-        .content-section {
-            grid-column: span 8;
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 2rem;
-        }
-        
-        /* Section latérale */
-        .sidebar-section {
-            grid-column: span 4;
-        }
-        
-        /* Notification de bloqueur de pub */
-        .ad-blocker-message {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 15, 40, 0.95);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 2rem;
-        }
-        
-        .message-content {
-            background: rgba(35, 35, 65, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 1rem;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: appear 0.5s ease-out;
-        }
-        
-        @keyframes appear {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .message-content h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: #64B5F6;
-            font-weight: 600;
-        }
-        
-        .message-content p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            color: #f0f0f0;
-            line-height: 1.7;
-        }
-        
-        /* Pied de page */
-        footer {
-            background: rgba(25, 25, 60, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 2rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        
-        .footer-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        
-        .footer-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-        
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: color 0.2s ease;
-            font-size: 0.9rem;
-            position: relative;
-        }
-        
-        .footer-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #64B5F6, #81D4FA);
-            transition: width 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: #fff;
-        }
-        
-        .footer-links a:hover::after {
-            width: 100%;
-        }
-        
-        .copyright {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.9rem;
-        }
-        
-        /* Pour mise en évidence des dimensions de pub (à enlever si souhaité) */
-        .ad-size {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.3);
-            pointer-events: none;
-        }
-        
-        /* Media queries pour le responsive */
-        @media (max-width: 1200px) {
-            .content-section {
-                grid-column: span 12;
-            }
-            
-            .sidebar-section {
-                grid-column: span 12;
-                display: grid;
-                grid-template-columns: repeat(12, 1fr);
-                gap: 2rem;
-            }
-            
-            .sidebar-section .ad-skyscraper {
-                grid-column: span 3;
-            }
-            
-            .sidebar-section .ad-square {
-                grid-column: span 5;
-            }
-            
-            .sidebar-section .ad-mobile {
-                grid-column: span 4;
-            }
-        }
-        
-        @media (max-width: 992px) {
-            main {
-                gap: 1.5rem;
-            }
-            
-            .ad-skyscraper {
-                grid-column: span 4;
-            }
-            
-            .ad-square {
-                grid-column: span 6;
-            }
-            
-            .ad-mobile {
-                grid-column: span 6;
-            }
-            
-            .ad-rectangle {
-                grid-column: span 12;
-            }
-            
-            .sidebar-section .ad-skyscraper {
-                grid-column: span 4;
-            }
-            
-            .sidebar-section .ad-square {
-                grid-column: span 8;
-            }
-            
-            .sidebar-section .ad-mobile {
-                grid-column: span 12;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            main {
-                display: flex;
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-            
-            .content-section, .sidebar-section {
-                display: flex;
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-            
-            .header-inner, .footer-inner {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-            
-            .footer-links {
-                justify-content: center;
-            }
-        }
-		/* Ajoutez cette règle à la fin de votre section style */
-iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformanceformat.com"] {
-    z-index: 10;
-    position: relative !important;
-    pointer-events: auto !important;
-}
-    </style>
 </head>
 <body>
     <!-- Effet de particules -->
@@ -421,9 +38,9 @@ iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformancefo
                 <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
             </div>
             
-            <!-- Section principale de contenu -->
+            <!-- Section principale avec le jeu au centre -->
             <div class="content-section">
-                <!-- Format mobile (320x50) -->
+                <!-- Format mobile (320x50) sur le haut -->
                 <div class="ad-container ad-mobile" style="grid-column: span 8;">
                     <script type="text/javascript">
                         atOptions = {
@@ -437,7 +54,12 @@ iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformancefo
                     <script type="text/javascript" src="//www.highperformanceformat.com/10c996022824cd7e59b5de061edb4e0f/invoke.js"></script>
                 </div>
                 
-                <!-- Format carré (300x250) -->
+                <!-- Jeu Flappy Bird au centre -->
+                <div class="game-container" style="grid-column: span 8;">
+                    <iframe src="flappy-bird.html" class="game-frame" title="Mini Flappy Bird"></iframe>
+                </div>
+                
+                <!-- Format carré (300x250) en bas -->
                 <div class="ad-container ad-square" style="grid-column: span 8;">
                     <script type="text/javascript">
                         atOptions = {
@@ -451,7 +73,7 @@ iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformancefo
                     <script type="text/javascript" src="//www.highperformanceformat.com/312cb4cedce2151b587a092cea4ecc47/invoke.js"></script>
                 </div>
                 
-                <!-- Grande bannière (728x90) -->
+                <!-- Grande bannière (728x90) tout en bas -->
                 <div class="ad-container ad-rectangle" style="grid-column: span 8;">
                     <script type="text/javascript">
                         atOptions = {
@@ -466,7 +88,7 @@ iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformancefo
                 </div>
             </div>
             
-            <!-- Sidebar -->
+            <!-- Sidebar à droite -->
             <div class="sidebar-section">
                 <!-- Format skyscraper (160x600) -->
                 <div class="ad-container ad-skyscraper" style="grid-column: span 4;">
@@ -537,35 +159,34 @@ iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformancefo
                 container.appendChild(particle);
             }
         }
-		
         
         // Détection de bloqueur de pub
-function detectAdBlocker() {
-    const adtest = document.createElement('div');
-    adtest.innerHTML = '&nbsp;';
-    adtest.className = 'adsbox';
-    adtest.style.height = '1px';
-    adtest.style.position = 'absolute';
-    adtest.style.top = '-1000px';
-    document.body.appendChild(adtest);
-    
-    setTimeout(function() {
-        if (adtest.offsetHeight === 0 || adtest.clientHeight === 0) {
-            document.getElementById('adblockMessage').style.display = 'flex';
+        function detectAdBlocker() {
+            const adtest = document.createElement('div');
+            adtest.innerHTML = '&nbsp;';
+            adtest.className = 'adsbox';
+            adtest.style.height = '1px';
+            adtest.style.position = 'absolute';
+            adtest.style.top = '-1000px';
+            document.body.appendChild(adtest);
+            
+            setTimeout(function() {
+                if (adtest.offsetHeight === 0 || adtest.clientHeight === 0) {
+                    document.getElementById('adblockMessage').style.display = 'flex';
+                }
+                adtest.remove();
+            }, 800); // Augmentation du délai à 800ms
         }
-        adtest.remove();
-    }, 800); // Augmentation du délai à 800ms
-}
         
         // Initialisation
-window.addEventListener('DOMContentLoaded', function() {
-    updateDateTime();
-    createParticles();
-    setTimeout(detectAdBlocker, 1000); // Délai plus long pour laisser les publicités se charger
-    
-    // Mise à jour de l'horloge toutes les minutes
-    setInterval(updateDateTime, 60000);
-});
+        window.addEventListener('DOMContentLoaded', function() {
+            updateDateTime();
+            createParticles();
+            setTimeout(detectAdBlocker, 1000); // Délai plus long pour laisser les publicités se charger
+            
+            // Mise à jour de l'horloge toutes les minutes
+            setInterval(updateDateTime, 60000);
+        });
     </script>
 </body>
 </html>
