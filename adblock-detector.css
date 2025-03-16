@@ -650,3 +650,9 @@ iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformancefo
     from { box-shadow: 0 0 10px #cd7f32; }
     to   { box-shadow: 0 0 20px #cd7f32; }
 }
+.ad-socialbar-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
