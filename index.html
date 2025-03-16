@@ -3,305 +3,414 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📢 Page Sponsorisée - Astuce Premium</title>
+    <title>📢 Espace Publicitaire Premium</title>
     <style>
-        :root {
-            --primary-color: #0066cc;
-            --secondary-color: #f8f9fa;
-            --accent-color: #ffc107;
-            --text-color: #333;
-            --light-text: #666;
-            --border-radius: 12px;
-            --box-shadow: 0 8px 15px rgba(0, 0, 0, 0.08);
-        }
-        
+        /* Reset et base */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
         
         body {
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            color: var(--text-color);
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background-color: #0f0f1a;
+            color: #fff;
+            overflow-x: hidden;
             line-height: 1.6;
-            min-height: 100vh;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
         }
         
-        .container {
-            width: 92%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px 0;
+        /* Effet de particules flottantes */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+        
+        /* Layout principal avec effet glassmorphism */
+        .wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         header {
-            background: linear-gradient(90deg, var(--primary-color) 0%, #0052a3 100%);
-            color: white;
-            padding: 18px 0;
-            text-align: center;
-            box-shadow: var(--box-shadow);
-            position: relative;
-            z-index: 10;
+            background: rgba(15, 15, 40, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .header-content {
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             display: flex;
             align-items: center;
-            justify-content: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            gap: 0.5rem;
         }
         
-        .header-icon {
-            font-size: 32px;
-            margin-right: 12px;
-        }
-        
-        .header-text {
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        
-        .ad-blocker-message {
-            display: none;
-            background-color: #ff4d4d;
-            color: white;
-            padding: 25px;
-            margin: 30px auto;
-            border-radius: var(--border-radius);
-            font-size: 18px;
-            text-align: center;
-            max-width: 800px;
-            box-shadow: var(--box-shadow);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(255, 77, 77, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(255, 77, 77, 0);
-            }
-        }
-        
+        /* Contenu principal avec sections de pub */
         main {
             flex: 1;
-            padding: 40px 0;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2rem;
         }
         
-        .ad-zone {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 25px;
-            box-shadow: var(--box-shadow);
-            margin-bottom: 35px;
-            text-align: center;
-            transition: transform 0.3s ease;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .ad-zone:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
-        }
-        
-        .ad-title {
-            margin-bottom: 20px;
-            color: var(--primary-color);
-            font-size: 20px;
-            font-weight: 600;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 8px;
-        }
-        
-        .ad-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background-color: var(--accent-color);
-            border-radius: 3px;
-        }
-        
+        /* Style pour les conteneurs de pub */
         .ad-container {
+            overflow: hidden;
+            border-radius: 1rem;
+            background: rgba(30, 30, 60, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100px;
-            background-color: var(--secondary-color);
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 10px;
+            padding: 1.5rem;
+            position: relative;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .footer {
-            background-color: #2b2d42;
-            color: #edf2f4;
-            padding: 30px 0;
-            text-align: center;
-            margin-top: auto;
+        .ad-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
+        .ad-container:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .ad-container:hover::before {
+            opacity: 1;
+        }
+        
+        /* Disposition des publicités dans la grille */
+        .ad-main {
+            grid-column: span 12;
+            min-height: 150px;
+        }
+        
+        .ad-vertical {
+            grid-column: span 4;
+            min-height: 350px;
+        }
+        
+        .ad-horizontal {
+            grid-column: span 8;
+            min-height: 180px;
+        }
+        
+        /* Notification de bloqueur de pub */
+        .ad-blocker-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 40, 0.9);
+            z-index: 1000;
+            justify-content: center;
             align-items: center;
+            text-align: center;
+            padding: 2rem;
         }
         
-        .footer-text {
-            font-size: 16px;
-            margin-bottom: 15px;
+        .message-content {
+            background: rgba(30, 30, 60, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            max-width: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: appear 0.5s ease-out;
+        }
+        
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .message-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #ff6b6b;
+        }
+        
+        .message-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #eee;
+        }
+        
+        /* Pied de page */
+        footer {
+            background: rgba(15, 15, 40, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
         
         .footer-links {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 10px;
+            gap: 1.5rem;
         }
         
-        .footer-link {
-            color: #a8dadc;
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color 0.2s ease;
+            font-size: 0.9rem;
         }
         
-        .footer-link:hover {
-            color: white;
-            text-decoration: underline;
+        .footer-links a:hover {
+            color: #4ecdc4;
         }
         
-        /* Responsive design */
+        .copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        
+        /* Media queries pour le responsive */
+        @media (max-width: 992px) {
+            .ad-vertical {
+                grid-column: span 6;
+            }
+            
+            .ad-horizontal {
+                grid-column: span 6;
+            }
+        }
+        
         @media (max-width: 768px) {
-            .header-text {
-                font-size: 22px;
+            main {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
             
-            .container {
-                width: 95%;
+            .ad-main, .ad-vertical, .ad-horizontal {
+                grid-column: 1 / -1;
             }
             
-            .ad-title {
-                font-size: 18px;
+            .header-inner, .footer-inner {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="header-icon">📢</div>
-            <div class="header-text">Astuce Premium du Jour</div>
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="ad-blocker-message" id="adblockMessage">
-            ⚠️ Il semble que vous utilisez un bloqueur de publicités.<br>
-            Merci de le désactiver pour accéder à ce contenu sponsorisé.
-        </div>
-
+    <!-- Effet de particules -->
+    <div class="particles" id="particles"></div>
+    
+    <div class="wrapper">
+        <header>
+            <div class="header-inner">
+                <div class="logo">
+                    <span>📢</span> Espace Premium
+                </div>
+                <div class="datetime" id="datetime">
+                    <!-- Injecté par JS -->
+                </div>
+            </div>
+        </header>
+        
         <main>
-            <div class="ad-zone">
-                <h2 class="ad-title">Annonce Principale</h2>
-                <div class="ad-container">
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key' : '4c0680bfeabb89a4be05bb92beb1702f',
-                            'format' : 'iframe',
-                            'height' : 60,
-                            'width' : 468,
-                            'params' : {}
-                        };
-                    </script>
-                    <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
-                </div>
+            <div class="ad-container ad-main">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : '4c0680bfeabb89a4be05bb92beb1702f',
+                        'format' : 'iframe',
+                        'height' : 60,
+                        'width' : 468,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
             </div>
-
-            <div class="ad-zone">
-                <h2 class="ad-title">Publicité Verticale</h2>
-                <div class="ad-container">
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key' : '4c0680bfeabb89a4be05bb92beb1702f',
-                            'format' : 'iframe',
-                            'height' : 60,
-                            'width' : 468,
-                            'params' : {}
-                        };
-                    </script>
-                    <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
-                </div>
+            
+            <div class="ad-container ad-vertical">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : '4c0680bfeabb89a4be05bb92beb1702f',
+                        'format' : 'iframe',
+                        'height' : 60,
+                        'width' : 468,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
             </div>
-
-            <div class="ad-zone">
-                <h2 class="ad-title">Bannière Premium</h2>
-                <div class="ad-container">
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key' : 'b33a38c8a1b27001de6833a06d7c093c',
-                            'format' : 'iframe',
-                            'height' : 90,
-                            'width' : 728,
-                            'params' : {}
-                        };
-                    </script>
-                    <script type="text/javascript" src="//www.highperformanceformat.com/b33a38c8a1b27001de6833a06d7c093c/invoke.js"></script>
-                </div>
+            
+            <div class="ad-container ad-horizontal">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'b33a38c8a1b27001de6833a06d7c093c',
+                        'format' : 'iframe',
+                        'height' : 90,
+                        'width' : 728,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/b33a38c8a1b27001de6833a06d7c093c/invoke.js"></script>
             </div>
         </main>
-    </div>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-text">© 2025 - Contenu Premium Sponsorisé</div>
-            <div class="footer-links">
-                <a href="#" class="footer-link">Conditions d'utilisation</a>
-                <a href="#" class="footer-link">Politique de confidentialité</a>
-                <a href="#" class="footer-link">Contact</a>
+        
+        <footer>
+            <div class="footer-inner">
+                <div class="copyright">© 2025 - Espace publicitaire premium</div>
+                <div class="footer-links">
+                    <a href="#">Confidentialité</a>
+                    <a href="#">Conditions</a>
+                    <a href="#">Contact</a>
+                </div>
             </div>
+        </footer>
+    </div>
+    
+    <div class="ad-blocker-message" id="adblockMessage">
+        <div class="message-content">
+            <h2>⚠️ Bloqueur de publicités détecté</h2>
+            <p>Nous avons détecté que vous utilisez un bloqueur de publicités. Pour accéder à cet espace premium, veuillez désactiver votre bloqueur de publicités et rafraîchir la page.</p>
         </div>
-    </footer>
-
+    </div>
+    
     <script>
+        // Mise à jour de la date et heure
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('datetime').textContent = now.toLocaleDateString('fr-FR', options);
+        }
+        
+        // Création des particules
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Propriétés aléatoires
+                const size = Math.random() * 5 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 15;
+                const duration = Math.random() * 15 + 15;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+        
         // Détection de bloqueur de pub
-        setTimeout(function () {
-            var adtest = document.createElement('div');
+        function detectAdBlocker() {
+            const adtest = document.createElement('div');
             adtest.innerHTML = '&nbsp;';
             adtest.className = 'adsbox';
             adtest.style.height = '1px';
             adtest.style.position = 'absolute';
             adtest.style.top = '-1000px';
             document.body.appendChild(adtest);
-
-            setTimeout(function () {
+            
+            setTimeout(function() {
                 if (adtest.offsetHeight === 0 || adtest.clientHeight === 0) {
-                    document.getElementById('adblockMessage').style.display = 'block';
-                    var mainContent = document.querySelector('main');
-                    if (mainContent) {
-                        mainContent.style.display = 'none';
-                    }
+                    document.getElementById('adblockMessage').style.display = 'flex';
                 }
                 adtest.remove();
             }, 100);
-        }, 100);
+        }
+        
+        // Initialisation
+        window.addEventListener('DOMContentLoaded', function() {
+            updateDateTime();
+            createParticles();
+            setTimeout(detectAdBlocker, 500);
+            
+            // Mise à jour de l'horloge toutes les minutes
+            setInterval(updateDateTime, 60000);
+        });
     </script>
 </body>
 </html>
