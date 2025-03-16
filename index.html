@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="adblock-detector-js.js" defer></script>
-    <script src="ad-refresher.js"></script>
+	<script src="ad-refresher.js"></script>
     <link rel="stylesheet" href="adblock-detector.css">
     <title>📢 Espace Publicitaire Premium</title>
 </head>
@@ -26,7 +26,7 @@
         
         <main>
             <!-- Bannière principale (468x60) -->
-            <div class="ad-container ad-banner">
+            <div class="ad-container ad-banner" id="ad-banner-top">
                 <script type="text/javascript">
                     atOptions = {
                         'key' : '4c0680bfeabb89a4be05bb92beb1702f',
@@ -42,7 +42,7 @@
             <!-- Section principale avec le jeu au centre -->
             <div class="content-section">
                 <!-- Format mobile (320x50) sur le haut -->
-                <div class="ad-container ad-mobile" style="grid-column: span 8;">
+                <div class="ad-container ad-mobile" id="ad-banner-middle">
                     <script type="text/javascript">
                         atOptions = {
                             'key' : '10c996022824cd7e59b5de061edb4e0f',
@@ -61,7 +61,7 @@
                 </div>
                 
                 <!-- Format carré (300x250) en bas -->
-                <div class="ad-container ad-square" style="grid-column: span 8;">
+                <div class="ad-container ad-square" id="ad-rectangle-left">
                     <script type="text/javascript">
                         atOptions = {
                             'key' : '312cb4cedce2151b587a092cea4ecc47',
@@ -75,7 +75,7 @@
                 </div>
                 
                 <!-- Grande bannière (728x90) tout en bas -->
-                <div class="ad-container ad-rectangle" style="grid-column: span 8;">
+                <div class="ad-container ad-rectangle" id="ad-banner-bottom">
                     <script type="text/javascript">
                         atOptions = {
                             'key' : 'b33a38c8a1b27001de6833a06d7c093c',
@@ -92,7 +92,7 @@
             <!-- Sidebar à droite -->
             <div class="sidebar-section">
                 <!-- Format skyscraper (160x600) -->
-                <div class="ad-container ad-skyscraper" style="grid-column: span 4;">
+                <div class="ad-container ad-skyscraper" id="ad-skyscraper-right">
                     <script type="text/javascript">
                         atOptions = {
                             'key' : 'f3e0040c99278a3b8c38178973258f3d',
