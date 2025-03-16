@@ -618,3 +618,35 @@ iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformancefo
     position: absolute;
     z-index: 1000;
 }
+#leaderboard-list li.top1 {
+    background: linear-gradient(90deg, gold, #fff5cc);
+    font-weight: bold;
+    animation: glowGold 1.5s infinite alternate;
+}
+
+#leaderboard-list li.top2 {
+    background: linear-gradient(90deg, silver, #f0f0f0);
+    font-weight: bold;
+    animation: glowSilver 1.5s infinite alternate;
+}
+
+#leaderboard-list li.top3 {
+    background: linear-gradient(90deg, #cd7f32, #ffe0b2);
+    font-weight: bold;
+    animation: glowBronze 1.5s infinite alternate;
+}
+
+@keyframes glowGold {
+    from { box-shadow: 0 0 10px gold; }
+    to   { box-shadow: 0 0 20px gold; }
+}
+
+@keyframes glowSilver {
+    from { box-shadow: 0 0 10px silver; }
+    to   { box-shadow: 0 0 20px silver; }
+}
+
+@keyframes glowBronze {
+    from { box-shadow: 0 0 10px #cd7f32; }
+    to   { box-shadow: 0 0 20px #cd7f32; }
+}
