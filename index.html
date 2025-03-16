@@ -12,15 +12,17 @@
             box-sizing: border-box;
         }
         
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+        
         body {
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
-            background-color: #0f0f1a;
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #202040 100%);
             color: #fff;
             overflow-x: hidden;
             line-height: 1.6;
         }
         
-        /* Effet de particules flottantes */
+        /* Effet de particules avec moins de densité */
         .particles {
             position: fixed;
             top: 0;
@@ -33,9 +35,9 @@
         
         .particle {
             position: absolute;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 50%;
-            animation: float 15s infinite linear;
+            animation: float 20s infinite linear;
         }
         
         @keyframes float {
@@ -47,7 +49,7 @@
             }
         }
         
-        /* Layout principal avec effet glassmorphism */
+        /* Layout principal */
         .wrapper {
             min-height: 100vh;
             display: flex;
@@ -55,14 +57,14 @@
         }
         
         header {
-            background: rgba(15, 15, 40, 0.7);
+            background: rgba(25, 25, 60, 0.7);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             padding: 1.5rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
         
         .header-inner {
@@ -76,8 +78,8 @@
         
         .logo {
             font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            font-weight: 600;
+            background: linear-gradient(90deg, #64B5F6, #81D4FA);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -86,7 +88,7 @@
             gap: 0.5rem;
         }
         
-        /* Contenu principal avec sections de pub */
+        /* Contenu principal avec layout pour publicités */
         main {
             flex: 1;
             max-width: 1400px;
@@ -94,16 +96,16 @@
             padding: 3rem 2rem;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 2rem;
+            grid-gap: 2rem;
         }
         
         /* Style pour les conteneurs de pub */
         .ad-container {
             overflow: hidden;
             border-radius: 1rem;
-            background: rgba(30, 30, 60, 0.5);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-            transition: all 0.3s ease;
+            background: rgba(35, 35, 65, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -111,25 +113,23 @@
             position: relative;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
         .ad-container::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
-            z-index: -1;
+            inset: 0;
+            background: linear-gradient(45deg, 
+                rgba(100, 181, 246, 0.08),
+                rgba(129, 212, 250, 0.08));
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
         
         .ad-container:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
         
         .ad-container:hover::before {
@@ -137,19 +137,42 @@
         }
         
         /* Disposition des publicités dans la grille */
-        .ad-main {
+        .ad-banner {
             grid-column: span 12;
-            min-height: 150px;
+            min-height: 120px;
         }
         
-        .ad-vertical {
+        .ad-square {
             grid-column: span 4;
-            min-height: 350px;
+            min-height: 300px;
         }
         
-        .ad-horizontal {
-            grid-column: span 8;
+        .ad-mobile {
+            grid-column: span 4;
+            min-height: 100px;
+        }
+        
+        .ad-skyscraper {
+            grid-column: span 2;
+            min-height: 650px;
+        }
+        
+        .ad-rectangle {
+            grid-column: span 6;
             min-height: 180px;
+        }
+        
+        /* Section principale de contenu */
+        .content-section {
+            grid-column: span 8;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 2rem;
+        }
+        
+        /* Section latérale */
+        .sidebar-section {
+            grid-column: span 4;
         }
         
         /* Notification de bloqueur de pub */
@@ -160,7 +183,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 15, 40, 0.9);
+            background: rgba(15, 15, 40, 0.95);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -169,12 +192,12 @@
         }
         
         .message-content {
-            background: rgba(30, 30, 60, 0.8);
+            background: rgba(35, 35, 65, 0.8);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             padding: 3rem;
             border-radius: 1rem;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             max-width: 600px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             animation: appear 0.5s ease-out;
@@ -194,22 +217,24 @@
         .message-content h2 {
             font-size: 2rem;
             margin-bottom: 1.5rem;
-            color: #ff6b6b;
+            color: #64B5F6;
+            font-weight: 600;
         }
         
         .message-content p {
             font-size: 1.1rem;
             margin-bottom: 2rem;
-            color: #eee;
+            color: #f0f0f0;
+            line-height: 1.7;
         }
         
         /* Pied de page */
         footer {
-            background: rgba(15, 15, 40, 0.7);
+            background: rgba(25, 25, 60, 0.7);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             padding: 2rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
         
         .footer-inner {
@@ -233,10 +258,26 @@
             text-decoration: none;
             transition: color 0.2s ease;
             font-size: 0.9rem;
+            position: relative;
+        }
+        
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #64B5F6, #81D4FA);
+            transition: width 0.3s ease;
         }
         
         .footer-links a:hover {
-            color: #4ecdc4;
+            color: #fff;
+        }
+        
+        .footer-links a:hover::after {
+            width: 100%;
         }
         
         .copyright {
@@ -244,31 +285,97 @@
             font-size: 0.9rem;
         }
         
+        /* Pour mise en évidence des dimensions de pub (à enlever si souhaité) */
+        .ad-size {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+        }
+        
         /* Media queries pour le responsive */
+        @media (max-width: 1200px) {
+            .content-section {
+                grid-column: span 12;
+            }
+            
+            .sidebar-section {
+                grid-column: span 12;
+                display: grid;
+                grid-template-columns: repeat(12, 1fr);
+                gap: 2rem;
+            }
+            
+            .sidebar-section .ad-skyscraper {
+                grid-column: span 3;
+            }
+            
+            .sidebar-section .ad-square {
+                grid-column: span 5;
+            }
+            
+            .sidebar-section .ad-mobile {
+                grid-column: span 4;
+            }
+        }
+        
         @media (max-width: 992px) {
-            .ad-vertical {
+            main {
+                gap: 1.5rem;
+            }
+            
+            .ad-skyscraper {
+                grid-column: span 4;
+            }
+            
+            .ad-square {
                 grid-column: span 6;
             }
             
-            .ad-horizontal {
+            .ad-mobile {
                 grid-column: span 6;
+            }
+            
+            .ad-rectangle {
+                grid-column: span 12;
+            }
+            
+            .sidebar-section .ad-skyscraper {
+                grid-column: span 4;
+            }
+            
+            .sidebar-section .ad-square {
+                grid-column: span 8;
+            }
+            
+            .sidebar-section .ad-mobile {
+                grid-column: span 12;
             }
         }
         
         @media (max-width: 768px) {
             main {
-                grid-template-columns: 1fr;
+                display: flex;
+                flex-direction: column;
                 gap: 1.5rem;
             }
             
-            .ad-main, .ad-vertical, .ad-horizontal {
-                grid-column: 1 / -1;
+            .content-section, .sidebar-section {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
             }
             
             .header-inner, .footer-inner {
                 flex-direction: column;
                 gap: 1rem;
                 text-align: center;
+            }
+            
+            .footer-links {
+                justify-content: center;
             }
         }
     </style>
@@ -290,7 +397,8 @@
         </header>
         
         <main>
-            <div class="ad-container ad-main">
+            <!-- Bannière principale (468x60) -->
+            <div class="ad-container ad-banner">
                 <script type="text/javascript">
                     atOptions = {
                         'key' : '4c0680bfeabb89a4be05bb92beb1702f',
@@ -303,30 +411,66 @@
                 <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
             </div>
             
-            <div class="ad-container ad-vertical">
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : '4c0680bfeabb89a4be05bb92beb1702f',
-                        'format' : 'iframe',
-                        'height' : 60,
-                        'width' : 468,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
+            <!-- Section principale de contenu -->
+            <div class="content-section">
+                <!-- Format mobile (320x50) -->
+                <div class="ad-container ad-mobile" style="grid-column: span 8;">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : '10c996022824cd7e59b5de061edb4e0f',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/10c996022824cd7e59b5de061edb4e0f/invoke.js"></script>
+                </div>
+                
+                <!-- Format carré (300x250) -->
+                <div class="ad-container ad-square" style="grid-column: span 8;">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : '312cb4cedce2151b587a092cea4ecc47',
+                            'format' : 'iframe',
+                            'height' : 250,
+                            'width' : 300,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/312cb4cedce2151b587a092cea4ecc47/invoke.js"></script>
+                </div>
+                
+                <!-- Grande bannière (728x90) -->
+                <div class="ad-container ad-rectangle" style="grid-column: span 8;">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'b33a38c8a1b27001de6833a06d7c093c',
+                            'format' : 'iframe',
+                            'height' : 90,
+                            'width' : 728,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/b33a38c8a1b27001de6833a06d7c093c/invoke.js"></script>
+                </div>
             </div>
             
-            <div class="ad-container ad-horizontal">
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : 'b33a38c8a1b27001de6833a06d7c093c',
-                        'format' : 'iframe',
-                        'height' : 90,
-                        'width' : 728,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/b33a38c8a1b27001de6833a06d7c093c/invoke.js"></script>
+            <!-- Sidebar -->
+            <div class="sidebar-section">
+                <!-- Format skyscraper (160x600) -->
+                <div class="ad-container ad-skyscraper" style="grid-column: span 4;">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'f3e0040c99278a3b8c38178973258f3d',
+                            'format' : 'iframe',
+                            'height' : 600,
+                            'width' : 160,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//www.highperformanceformat.com/f3e0040c99278a3b8c38178973258f3d/invoke.js"></script>
+                </div>
             </div>
         </main>
         
@@ -357,21 +501,21 @@
             document.getElementById('datetime').textContent = now.toLocaleDateString('fr-FR', options);
         }
         
-        // Création des particules
+        // Création des particules avec moins de densité
         function createParticles() {
             const container = document.getElementById('particles');
-            const particleCount = 50;
+            const particleCount = 30; // Réduit pour moins de distraction
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
                 // Propriétés aléatoires
-                const size = Math.random() * 5 + 1;
+                const size = Math.random() * 4 + 1;
                 const posX = Math.random() * 100;
                 const posY = Math.random() * 100;
                 const delay = Math.random() * 15;
-                const duration = Math.random() * 15 + 15;
+                const duration = Math.random() * 15 + 20;
                 
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
@@ -399,7 +543,7 @@
                     document.getElementById('adblockMessage').style.display = 'flex';
                 }
                 adtest.remove();
-            }, 100);
+            }, 300);
         }
         
         // Initialisation
