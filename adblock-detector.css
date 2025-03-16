@@ -163,18 +163,18 @@ body {
 }
 
 header {
-    background: rgba(25, 25, 60, 0.7);
+    background: rgba(25, 25, 60, 0.8);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 1.5rem 0;
     position: sticky;
     top: 0;
     z-index: 100;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .header-inner {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
@@ -183,8 +183,8 @@ header {
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.75rem;
+    font-weight: 700;
     background: linear-gradient(90deg, #64B5F6, #81D4FA);
     -webkit-background-clip: text;
     background-clip: text;
@@ -194,159 +194,137 @@ header {
     gap: 0.5rem;
 }
 
-/* Contenu principal avec layout pour publicités */
+/* Contenu principal avec nouvelle disposition */
 main {
     flex: 1;
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: 2rem;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-gap: 2rem;
+    grid-gap: 1.5rem;
 }
 
-/* Style pour les conteneurs de pub */
+/* Style pour les conteneurs de pub améliorés */
 .ad-container {
     overflow: hidden;
-    border-radius: 1rem;
-    background: rgba(35, 35, 65, 0.4);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border-radius: 0.75rem;
+    background: rgba(35, 35, 65, 0.5);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1.5rem;
+    padding: 0;
     position: relative;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(100, 181, 246, 0.15);
     z-index: 5;
 }
 
 .ad-container::before {
-    pointer-events: none;
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(45deg, 
-        rgba(100, 181, 246, 0.08),
-        rgba(129, 212, 250, 0.08));
+        rgba(100, 181, 246, 0.1),
+        rgba(129, 212, 250, 0.1));
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.3s ease;
 }
 
 .ad-container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
 }
 
 .ad-container:hover::before {
     opacity: 1;
 }
 
-/* Disposition des publicités dans la grille */
-.ad-banner {
-    grid-column: span 12;
-    min-height: 120px;
+/* Nouvelle disposition des publicités dans la grille */
+.ad-banner-top {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    min-height: 90px;
+    margin-bottom: 1rem;
 }
 
-.ad-square {
-    grid-column: span 4;
-    min-height: 300px;
+/* Section de jeu au centre */
+.game-section {
+    grid-column: 2 / 12;
+    grid-row: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0 2rem 0;
 }
 
-.ad-mobile {
-    grid-column: span 4;
-    min-height: 100px;
+.game-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 1rem;
+    background: rgba(35, 35, 65, 0.3);
+    border-radius: 1rem;
+    border: 1px solid rgba(100, 181, 246, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-.ad-skyscraper {
-    grid-column: span 2;
+.game-frame {
+    width: 100%;
+    height: 650px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Publicités verticales sur les côtés */
+.ad-skyscraper-left {
+    grid-column: 1;
+    grid-row: 2;
     min-height: 650px;
 }
 
-.ad-rectangle {
-    grid-column: span 6;
+.ad-skyscraper-right {
+    grid-column: 12;
+    grid-row: 2;
+    min-height: 650px;
+}
+
+/* Publicités rectangulaires en bas */
+.ad-rectangle-left {
+    grid-column: 2 / 7;
+    grid-row: 3;
     min-height: 180px;
 }
 
-/* Section principale de contenu */
-.content-section {
-    grid-column: span 8;
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 2rem;
+.ad-rectangle-right {
+    grid-column: 7 / 12;
+    grid-row: 3;
+    min-height: 180px;
 }
 
-/* Section latérale */
-.sidebar-section {
-    grid-column: span 4;
-}
-
-/* Notification de bloqueur de pub */
-.ad-blocker-message {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(15, 15, 40, 0.95);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 2rem;
-}
-
-.message-content {
-    background: rgba(35, 35, 65, 0.8);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 3rem;
-    border-radius: 1rem;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-    max-width: 600px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: appear 0.5s ease-out;
-}
-
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.message-content h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #64B5F6;
-    font-weight: 600;
-}
-
-.message-content p {
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-    color: #f0f0f0;
-    line-height: 1.7;
+/* Bannière inférieure */
+.ad-banner-bottom {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    min-height: 90px;
+    margin-top: 1rem;
 }
 
 /* Pied de page */
 footer {
-    background: rgba(25, 25, 60, 0.7);
+    background: rgba(25, 25, 60, 0.8);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    padding: 2rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 2rem;
 }
 
 .footer-inner {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
     display: flex;
@@ -393,87 +371,159 @@ footer {
     font-size: 0.9rem;
 }
 
-/* Pour mise en évidence des dimensions de pub (à enlever si souhaité) */
-.ad-size {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.3);
+/* Détecteur de bloqueur de publicités - conservé de l'original */
+#adblockModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.adblock-modal-content {
+    background-color: #202040;
+    padding: 30px;
+    border-radius: 10px;
+    color: white;
+    max-width: 600px;
+    text-align: center;
+    animation: adblock-modal-appear 0.5s ease forwards;
+}
+
+@keyframes adblock-modal-appear {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.adblock-warning-title {
+    color: #ff5252;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.adblock-warning-message {
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.adblock-warning-box {
+    background: rgba(255, 82, 82, 0.1);
+    border-left: 4px solid #ff5252;
+    padding: 15px;
+    text-align: left;
+    margin: 20px 0;
+}
+
+.adblock-warning-instructions {
+    margin-bottom: 20px;
+}
+
+.adblock-refresh-button {
+    background: linear-gradient(90deg, #64B5F6, #2196F3);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.adblock-refresh-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.adblock-thank-you {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 9998;
+    animation: adblock-thank-you-appear 0.5s ease forwards;
+}
+
+@keyframes adblock-thank-you-appear {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.adblock-detected body {
+    overflow: hidden;
+}
+
+.adblock-detected main,
+.adblock-detected .content,
+.adblock-detected #content,
+.adblock-detected article {
+    opacity: 0.3;
     pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+/* Z-index pour les publicités */
+iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformanceformat.com"] {
+    z-index: 10;
+    position: relative !important;
+    pointer-events: auto !important;
 }
 
 /* Media queries pour le responsive */
 @media (max-width: 1200px) {
-    .content-section {
-        grid-column: span 12;
-    }
-    
-    .sidebar-section {
-        grid-column: span 12;
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 2rem;
-    }
-    
-    .sidebar-section .ad-skyscraper {
-        grid-column: span 3;
-    }
-    
-    .sidebar-section .ad-square {
-        grid-column: span 5;
-    }
-    
-    .sidebar-section .ad-mobile {
-        grid-column: span 4;
-    }
-}
-
-@media (max-width: 992px) {
     main {
-        gap: 1.5rem;
+        grid-template-columns: repeat(8, 1fr);
     }
     
-    .ad-skyscraper {
-        grid-column: span 4;
+    .game-section {
+        grid-column: 1 / -1;
     }
     
-    .ad-square {
-        grid-column: span 6;
+    .ad-skyscraper-left, .ad-skyscraper-right {
+        display: none;
     }
     
-    .ad-mobile {
-        grid-column: span 6;
+    .ad-rectangle-left {
+        grid-column: 1 / 5;
     }
     
-    .ad-rectangle {
-        grid-column: span 12;
-    }
-    
-    .sidebar-section .ad-skyscraper {
-        grid-column: span 4;
-    }
-    
-    .sidebar-section .ad-square {
-        grid-column: span 8;
-    }
-    
-    .sidebar-section .ad-mobile {
-        grid-column: span 12;
+    .ad-rectangle-right {
+        grid-column: 5 / 9;
     }
 }
 
 @media (max-width: 768px) {
     main {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
+        grid-template-columns: 1fr;
+        padding: 1rem;
     }
     
-    .content-section, .sidebar-section {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
+    .game-section {
+        margin: 0.5rem 0;
+    }
+    
+    .ad-rectangle-left, .ad-rectangle-right {
+        grid-column: 1 / -1;
     }
     
     .header-inner, .footer-inner {
@@ -485,30 +535,4 @@ footer {
     .footer-links {
         justify-content: center;
     }
-}
-
-/* Z-index pour les publicités */
-iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformanceformat.com"] {
-    z-index: 10;
-    position: relative !important;
-    pointer-events: auto !important;
-}
-
-/* Styles pour intégrer Flappy Bird */
-.game-container {
-    grid-column: span 8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 450px;
-}
-
-.game-frame {
-    width: 100%;
-    height: 650px;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
