@@ -612,13 +612,12 @@ function startGame() {
                 birdRect.top > pipeRect.bottom
             );
         }
-        
 function gameOver() {
     isGameOver = true;
     cancelAnimationFrame(animationFrameId);
     
     finalScoreDisplay.textContent = `Score: ${score}`;
-    
+
     // Vérifier si c'est un nouveau record
     if (score > highScore) {
         isNewRecord = true;
@@ -630,13 +629,29 @@ function gameOver() {
     } else {
         bestScoreDisplay.textContent = `Record: ${highScore}`;
     }
-    
-    // Enregistrement du score dans le classement local
+
+    // 🔥 ✅ Enregistrement du score dans le classement local (CORRIGÉ)
     let allScores = JSON.parse(localStorage.getItem('flappyLeaderboard')) || [];
-    allScores.push({ name: playerName, score: score });
-    allScores = allScores.sort((a, b) => b.score - a.score).slice(0, 10); // top 10
+
+    // Vérifier si le joueur existe déjà
+    const existingIndex = allScores.findIndex(entry => entry.name === playerName);
+    if (existingIndex !== -1) {
+        if (score > allScores[existingIndex].score) {
+            allScores[existingIndex].score = score; // Met à jour uniquement si meilleur score
+        }
+    } else {
+        allScores.push({ name: playerName, score: score }); // Sinon, ajoute
+    }
+
+    // Tri du classement par score décroissant
+    allScores.sort((a, b) => b.score - a.score);
+
+    // Limiter à top 10
+    allScores = allScores.slice(0, 10);
+
+    // Sauvegarder
     localStorage.setItem('flappyLeaderboard', JSON.stringify(allScores));
-    
+
     gameOverScreen.style.display = 'flex';
 }
         
