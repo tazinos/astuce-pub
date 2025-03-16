@@ -1,97 +1,145 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎁 Astuce du jour - Contenu Premium</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #dbefff, #f3f8ff);
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-        header {
-            background-color: #1e73e8;
-            color: white;
-            padding: 20px 0;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .ad-container {
-            margin: 40px auto;
-            display: flex;
-            justify-content: center;
-        }
-        .ad-warning {
-            display: none;
-            background: #ffdddd;
-            color: #990000;
-            font-weight: bold;
-            padding: 20px;
-            margin: 40px auto;
-            width: 90%;
-            max-width: 600px;
-            border: 2px solid #990000;
-            border-radius: 10px;
-        }
-        footer {
-            background-color: #1e73e8;
-            color: white;
-            padding: 15px;
-            font-size: 14px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎁 Astuce du jour - Contenu Premium</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #e8f0ff, #ffffff);
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+    header {
+      background-color: #1e88e5;
+      padding: 20px;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .message {
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+    .ads-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .ad-box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .ad-box:hover {
+      transform: scale(1.02);
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #777;
+    }
+    #adblock-warning {
+      display: none;
+      background-color: #ffcccc;
+      padding: 20px;
+      color: #b20000;
+      font-size: 18px;
+      border: 2px solid #b20000;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+  </style>
 </head>
 <body>
-    <header>🎁 Astuce du jour - Contenu Premium</header>
+  <header>🎁 Astuce du jour - Contenu Premium</header>
 
-    <div class="ad-warning" id="adblock-warning">
-        ⚠️ Un bloqueur de publicités a été détecté !<br>
-        Merci de désactiver votre bloqueur pour accéder au contenu.
+  <div id="adblock-warning">
+    🚫 Veuillez désactiver votre bloqueur de publicité pour accéder au contenu. Merci !
+  </div>
+
+  <div class="message">
+    Voici une astuce gratuite sélectionnée pour vous aujourd’hui. Merci de votre visite !
+  </div>
+
+  <div class="ads-container">
+    <div class="ad-box">
+      <!-- 468x60 -->
+      <script type="text/javascript">
+        atOptions = { 'key': '468_banner_key', 'format': 'iframe', 'height': 60, 'width': 468, 'params': {} };
+      </script>
+      <script type="text/javascript" src="//www.highperformanceformat.com/468_banner_key/invoke.js"></script>
     </div>
 
-    <div class="ad-container" id="ad-container">
-        <!-- Code de la publicité Adsterra -->
-        <script type="text/javascript">
-            atOptions = {
-                'key': 'b33a38ca1b27001de6833a06d7c093c',
-                'format': 'iframe',
-                'height': 90,
-                'width': 728,
-                'params': {}
-            };
-        </script>
-        <script type="text/javascript" src="https://www.highperformanceformat.com/b33a38ca1b27001de6833a06d7c093c/invoke.js"></script>
+    <div class="ad-box">
+      <!-- 160x300 -->
+      <script type="text/javascript">
+        atOptions = { 'key': '160x300_key', 'format': 'iframe', 'height': 300, 'width': 160, 'params': {} };
+      </script>
+      <script type="text/javascript" src="//www.highperformanceformat.com/160x300_key/invoke.js"></script>
     </div>
 
-    <p>Voici une astuce gratuite sélectionnée pour vous aujourd'hui. Merci de votre visite !</p>
+    <div class="ad-box">
+      <!-- 320x50 -->
+      <script type="text/javascript">
+        atOptions = { 'key': '320x50_key', 'format': 'iframe', 'height': 50, 'width': 320, 'params': {} };
+      </script>
+      <script type="text/javascript" src="//www.highperformanceformat.com/320x50_key/invoke.js"></script>
+    </div>
 
-    <footer>
-        © 2025 - Page sponsorisée - Merci pour votre visite
-    </footer>
+    <div class="ad-box">
+      <!-- 300x250 -->
+      <script type="text/javascript">
+        atOptions = { 'key': '300x250_key', 'format': 'iframe', 'height': 250, 'width': 300, 'params': {} };
+      </script>
+      <script type="text/javascript" src="//www.highperformanceformat.com/300x250_key/invoke.js"></script>
+    </div>
 
-    <!-- Détection AdBlock -->
-    <script>
-        window.addEventListener('load', function() {
-            const adTest = document.createElement('div');
-            adTest.innerHTML = '&nbsp;';
-            adTest.className = 'adsbox';
-            adTest.style.position = 'absolute';
-            adTest.style.height = '1px';
-            adTest.style.width = '1px';
-            adTest.style.top = '-1000px';
-            document.body.appendChild(adTest);
+    <div class="ad-box">
+      <!-- 160x600 -->
+      <script type="text/javascript">
+        atOptions = { 'key': '160x600_key', 'format': 'iframe', 'height': 600, 'width': 160, 'params': {} };
+      </script>
+      <script type="text/javascript" src="//www.highperformanceformat.com/160x600_key/invoke.js"></script>
+    </div>
+  </div>
 
-            setTimeout(() => {
-                if (adTest.offsetHeight === 0 || adTest.offsetParent === null) {
-                    document.getElementById('ad-container').style.display = 'none';
-                    document.getElementById('adblock-warning').style.display = 'block';
-                }
-                document.body.removeChild(adTest);
-            }, 100);
-        });
-    </script>
+  <footer>
+    © 2025 - Page sponsorisée - Merci pour votre visite
+  </footer>
+
+  <script>
+    // Détection d’Adblock (basique)
+    window.addEventListener('load', function () {
+      const testAd = document.createElement('div');
+      testAd.innerHTML = '&nbsp;';
+      testAd.className = 'adsbox';
+      testAd.style.height = '1px';
+      testAd.style.width = '1px';
+      testAd.style.position = 'absolute';
+      testAd.style.left = '-1000px';
+      document.body.appendChild(testAd);
+      setTimeout(() => {
+        if (testAd.offsetHeight === 0) {
+          document.getElementById('adblock-warning').style.display = 'block';
+          document.body.innerHTML = document.getElementById('adblock-warning').outerHTML;
+        }
+        testAd.remove();
+      }, 200);
+    });
+  </script>
 </body>
 </html>
