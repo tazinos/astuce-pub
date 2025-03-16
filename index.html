@@ -1,145 +1,136 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎁 Astuce du jour - Contenu Premium</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #e8f0ff, #ffffff);
-      color: #333;
-      text-align: center;
-      padding: 20px;
-    }
-    header {
-      background-color: #1e88e5;
-      padding: 20px;
-      color: white;
-      font-size: 28px;
-      font-weight: bold;
-      border-radius: 12px;
-      margin-bottom: 25px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    .message {
-      font-size: 18px;
-      margin-bottom: 25px;
-    }
-    .ads-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-    .ad-box {
-      background: #fff;
-      border-radius: 10px;
-      padding: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-    }
-    .ad-box:hover {
-      transform: scale(1.02);
-    }
-    footer {
-      margin-top: 40px;
-      font-size: 14px;
-      color: #777;
-    }
-    #adblock-warning {
-      display: none;
-      background-color: #ffcccc;
-      padding: 20px;
-      color: #b20000;
-      font-size: 18px;
-      border: 2px solid #b20000;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📢 Page Sponsorisée - Astuce Premium</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom, #e9f1ff, #ffffff);
+            color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .ad-blocker-message {
+            display: none;
+            background-color: #ff4d4d;
+            color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            text-align: center;
+        }
+        .ad-zone {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 1000px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .footer {
+            margin-top: auto;
+            text-align: center;
+            color: #666;
+            padding: 20px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-  <header>🎁 Astuce du jour - Contenu Premium</header>
+    <header>📢 Astuce du jour - Contenu Premium</header>
 
-  <div id="adblock-warning">
-    🚫 Veuillez désactiver votre bloqueur de publicité pour accéder au contenu. Merci !
-  </div>
-
-  <div class="message">
-    Voici une astuce gratuite sélectionnée pour vous aujourd’hui. Merci de votre visite !
-  </div>
-
-  <div class="ads-container">
-    <div class="ad-box">
-      <!-- 468x60 -->
-      <script type="text/javascript">
-        atOptions = { 'key': '468_banner_key', 'format': 'iframe', 'height': 60, 'width': 468, 'params': {} };
-      </script>
-      <script type="text/javascript" src="//www.highperformanceformat.com/468_banner_key/invoke.js"></script>
+    <div class="ad-blocker-message" id="adblockMessage">
+        ⚠️ Il semble que vous utilisez un bloqueur de publicités.<br>
+        Merci de le désactiver pour accéder à ce contenu sponsorisé.
     </div>
 
-    <div class="ad-box">
-      <!-- 160x300 -->
-      <script type="text/javascript">
-        atOptions = { 'key': '160x300_key', 'format': 'iframe', 'height': 300, 'width': 160, 'params': {} };
-      </script>
-      <script type="text/javascript" src="//www.highperformanceformat.com/160x300_key/invoke.js"></script>
+    <div class="ad-zone">
+        <h2>Bannière 468x60</h2>
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '4c0680bfeabb89a4be05bb92beb1702f',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
     </div>
 
-    <div class="ad-box">
-      <!-- 320x50 -->
-      <script type="text/javascript">
-        atOptions = { 'key': '320x50_key', 'format': 'iframe', 'height': 50, 'width': 320, 'params': {} };
-      </script>
-      <script type="text/javascript" src="//www.highperformanceformat.com/320x50_key/invoke.js"></script>
+    <div class="ad-zone">
+        <h2>Bannière 160x300</h2>
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '4c0680bfeabb89a4be05bb92beb1702f',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
     </div>
 
-    <div class="ad-box">
-      <!-- 300x250 -->
-      <script type="text/javascript">
-        atOptions = { 'key': '300x250_key', 'format': 'iframe', 'height': 250, 'width': 300, 'params': {} };
-      </script>
-      <script type="text/javascript" src="//www.highperformanceformat.com/300x250_key/invoke.js"></script>
+    <div class="ad-zone">
+        <h2>Bannière 728x90</h2>
+        <script type="text/javascript">
+            atOptions = {
+                'key' : 'b33a38c8a1b27001de6833a06d7c093c',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/b33a38c8a1b27001de6833a06d7c093c/invoke.js"></script>
     </div>
 
-    <div class="ad-box">
-      <!-- 160x600 -->
-      <script type="text/javascript">
-        atOptions = { 'key': '160x600_key', 'format': 'iframe', 'height': 600, 'width': 160, 'params': {} };
-      </script>
-      <script type="text/javascript" src="//www.highperformanceformat.com/160x600_key/invoke.js"></script>
+    <div class="footer">
+        © 2025 - Page sponsorisée | Merci pour votre visite
     </div>
-  </div>
 
-  <footer>
-    © 2025 - Page sponsorisée - Merci pour votre visite
-  </footer>
+    <script>
+        // Détection de bloqueur de pub
+        setTimeout(function () {
+            var adtest = document.createElement('div');
+            adtest.innerHTML = '&nbsp;';
+            adtest.className = 'adsbox';
+            adtest.style.height = '1px';
+            adtest.style.position = 'absolute';
+            adtest.style.top = '-1000px';
+            document.body.appendChild(adtest);
 
-  <script>
-    // Détection d’Adblock (basique)
-    window.addEventListener('load', function () {
-      const testAd = document.createElement('div');
-      testAd.innerHTML = '&nbsp;';
-      testAd.className = 'adsbox';
-      testAd.style.height = '1px';
-      testAd.style.width = '1px';
-      testAd.style.position = 'absolute';
-      testAd.style.left = '-1000px';
-      document.body.appendChild(testAd);
-      setTimeout(() => {
-        if (testAd.offsetHeight === 0) {
-          document.getElementById('adblock-warning').style.display = 'block';
-          document.body.innerHTML = document.getElementById('adblock-warning').outerHTML;
-        }
-        testAd.remove();
-      }, 200);
-    });
-  </script>
+            setTimeout(function () {
+                if (adtest.offsetHeight === 0 || adtest.clientHeight === 0) {
+                    document.getElementById('adblockMessage').style.display = 'block';
+                    document.body.innerHTML = document.getElementById('adblockMessage').outerHTML;
+                }
+                adtest.remove();
+            }, 100);
+        }, 100);
+    </script>
 </body>
 </html>
