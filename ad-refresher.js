@@ -71,6 +71,16 @@ function refreshSingleAd(containerId) {
                 // Recréer le contenu
                 container.innerHTML = originalHtml;
                 
+                // Recharger dynamiquement le script Adsterra
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = originalHtml;
+                const newScript = tempDiv.querySelector("script[src]");
+                if (newScript) {
+                    const scriptClone = document.createElement("script");
+                    scriptClone.src = newScript.src;
+                    container.appendChild(scriptClone);
+                }
+                
                 // Restaurer l'opacité
                 container.style.opacity = '1';
                 
