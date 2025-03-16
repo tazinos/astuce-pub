@@ -102,32 +102,34 @@
         }
         
         /* Style pour les conteneurs de pub */
-        .ad-container {
-            overflow: hidden;
-            border-radius: 1rem;
-            background: rgba(35, 35, 65, 0.4);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1.5rem;
-            position: relative;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
+.ad-container {
+    overflow: hidden;
+    border-radius: 1rem;
+    background: rgba(35, 35, 65, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    position: relative;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 5; /* Ajout d'un z-index pour s'assurer que la publicité est au-dessus */
+}
         
-        .ad-container::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, 
-                rgba(100, 181, 246, 0.08),
-                rgba(129, 212, 250, 0.08));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
+.ad-container::before {
+    pointer-events: none; /* Cette ligne est importante */
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, 
+        rgba(100, 181, 246, 0.08),
+        rgba(129, 212, 250, 0.08));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
         
         .ad-container:hover {
             transform: translateY(-5px);
@@ -380,6 +382,12 @@
                 justify-content: center;
             }
         }
+		/* Ajoutez cette règle à la fin de votre section style */
+iframe[id^="aswift_"], iframe[id^="google_ads_"], iframe[src*="highperformanceformat.com"] {
+    z-index: 10;
+    position: relative !important;
+    pointer-events: auto !important;
+}
     </style>
 </head>
 <body>
@@ -532,32 +540,32 @@
 		
         
         // Détection de bloqueur de pub
-        function detectAdBlocker() {
-            const adtest = document.createElement('div');
-            adtest.innerHTML = '&nbsp;';
-            adtest.className = 'adsbox';
-            adtest.style.height = '1px';
-            adtest.style.position = 'absolute';
-            adtest.style.top = '-1000px';
-            document.body.appendChild(adtest);
-            
-            setTimeout(function() {
-                if (adtest.offsetHeight === 0 || adtest.clientHeight === 0) {
-                    document.getElementById('adblockMessage').style.display = 'flex';
-                }
-                adtest.remove();
-            }, 300);
+function detectAdBlocker() {
+    const adtest = document.createElement('div');
+    adtest.innerHTML = '&nbsp;';
+    adtest.className = 'adsbox';
+    adtest.style.height = '1px';
+    adtest.style.position = 'absolute';
+    adtest.style.top = '-1000px';
+    document.body.appendChild(adtest);
+    
+    setTimeout(function() {
+        if (adtest.offsetHeight === 0 || adtest.clientHeight === 0) {
+            document.getElementById('adblockMessage').style.display = 'flex';
         }
+        adtest.remove();
+    }, 800); // Augmentation du délai à 800ms
+}
         
         // Initialisation
-        window.addEventListener('DOMContentLoaded', function() {
-            updateDateTime();
-            createParticles();
-            setTimeout(detectAdBlocker, 500);
-            
-            // Mise à jour de l'horloge toutes les minutes
-            setInterval(updateDateTime, 60000);
-        });
+window.addEventListener('DOMContentLoaded', function() {
+    updateDateTime();
+    createParticles();
+    setTimeout(detectAdBlocker, 1000); // Délai plus long pour laisser les publicités se charger
+    
+    // Mise à jour de l'horloge toutes les minutes
+    setInterval(updateDateTime, 60000);
+});
     </script>
 </body>
 </html>
