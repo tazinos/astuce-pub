@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,90 +6,92 @@
     <title>🎁 Astuce du jour - Contenu Premium</title>
     <style>
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+            background: linear-gradient(to bottom, #dbefff, #f3f8ff);
+            margin: 0;
+            padding: 0;
             text-align: center;
         }
         header {
-            background-color: #1976d2;
+            background-color: #1e73e8;
             color: white;
-            padding: 20px;
+            padding: 20px 0;
             font-size: 24px;
+            font-weight: bold;
         }
-        .content {
-            padding: 40px;
-            font-size: 18px;
+        .ad-container {
+            margin: 40px auto;
+            display: flex;
+            justify-content: center;
+        }
+        .ad-warning {
+            display: none;
+            background: #ffdddd;
+            color: #990000;
+            font-weight: bold;
+            padding: 20px;
+            margin: 40px auto;
+            width: 90%;
+            max-width: 600px;
+            border: 2px solid #990000;
+            border-radius: 10px;
         }
         footer {
-            background-color: #1976d2;
+            background-color: #1e73e8;
             color: white;
-            padding: 10px;
+            padding: 15px;
             font-size: 14px;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-        }
-        .ads-container {
-            margin: 20px auto;
-        }
-        #adblock-warning {
-            display: none;
-            background-color: #ff4444;
-            color: white;
-            padding: 30px;
-            font-size: 20px;
-            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div id="adblock-warning">🚫 Veuillez désactiver votre bloqueur de publicité pour accéder à ce contenu premium.</div>
-    
-    <div id="main-content" style="display:none;">
-        <header>🎁 Astuce du jour - Contenu Premium</header>
-        <div class="content">
-            Voici une astuce gratuite sélectionnée pour vous aujourd'hui. Merci de votre visite !
-        </div>
-        <div class="ads-container">
-            <script type="text/javascript">
-                atOptions = {
-                    'key' : 'b33a38c8a1b27001de6833a06d7c093c',
-                    'format' : 'iframe',
-                    'height' : 90,
-                    'width' : 728,
-                    'params' : {}
-                };
-            </script>
-            <script type="text/javascript" src="https://www.highperformanceformat.com/b33a38c8a1b27001de6833a06d7c093c/invoke.js"></script>
-        </div>
-        <footer>
-            © 2025 - Page sponsorisée - Merci pour votre visite
-        </footer>
+    <header>🎁 Astuce du jour - Contenu Premium</header>
+
+    <div class="ad-warning" id="adblock-warning">
+        ⚠️ Un bloqueur de publicités a été détecté !<br>
+        Merci de désactiver votre bloqueur pour accéder au contenu.
     </div>
 
-    <script>
-        // Détection de bloqueur de pub
-        window.onload = function() {
-            let bait = document.createElement('div');
-            bait.className = 'adsbox';
-            bait.style.height = '1px';
-            bait.style.width = '1px';
-            bait.style.position = 'absolute';
-            bait.style.left = '-10000px';
-            document.body.appendChild(bait);
+    <div class="ad-container" id="ad-container">
+        <!-- Code de la publicité Adsterra -->
+        <script type="text/javascript">
+            atOptions = {
+                'key': 'b33a38ca1b27001de6833a06d7c093c',
+                'format': 'iframe',
+                'height': 90,
+                'width': 728,
+                'params': {}
+            };
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/b33a38ca1b27001de6833a06d7c093c/invoke.js"></script>
+    </div>
 
-            setTimeout(function () {
-                if (bait.offsetHeight === 0 || bait.offsetParent === null) {
+    <p>Voici une astuce gratuite sélectionnée pour vous aujourd'hui. Merci de votre visite !</p>
+
+    <footer>
+        © 2025 - Page sponsorisée - Merci pour votre visite
+    </footer>
+
+    <!-- Détection AdBlock -->
+    <script>
+        window.addEventListener('load', function() {
+            const adTest = document.createElement('div');
+            adTest.innerHTML = '&nbsp;';
+            adTest.className = 'adsbox';
+            adTest.style.position = 'absolute';
+            adTest.style.height = '1px';
+            adTest.style.width = '1px';
+            adTest.style.top = '-1000px';
+            document.body.appendChild(adTest);
+
+            setTimeout(() => {
+                if (adTest.offsetHeight === 0 || adTest.offsetParent === null) {
+                    document.getElementById('ad-container').style.display = 'none';
                     document.getElementById('adblock-warning').style.display = 'block';
-                    document.getElementById('main-content').style.display = 'none';
-                } else {
-                    document.getElementById('adblock-warning').style.display = 'none';
-                    document.getElementById('main-content').style.display = 'block';
                 }
-                bait.remove();
+                document.body.removeChild(adTest);
             }, 100);
-        };
+        });
     </script>
 </body>
 </html>
