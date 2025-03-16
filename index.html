@@ -243,20 +243,31 @@
                 adtest.remove();
             }, 800);
         }
-        function updateLeaderboard() {
-            const leaderboard = JSON.parse(localStorage.getItem('flappyLeaderboard')) || [];
-            const list = document.getElementById('leaderboard-list');
-            list.innerHTML = '';
-            if (leaderboard.length === 0) {
-                list.innerHTML = '<li>Aucun score enregistré pour le moment.</li>';
-                return;
-            }
-            leaderboard.forEach((entry, index) => {
-                const li = document.createElement('li');
-                li.innerHTML = `<strong>#${index + 1}</strong> ${entry.name} - <span>${entry.score} pts</span>`;
-                list.appendChild(li);
-            });
-        }
+function updateLeaderboard() {
+    const leaderboard = JSON.parse(localStorage.getItem('flappyLeaderboard')) || [];
+    const list = document.getElementById('leaderboard-list');
+    list.innerHTML = '';
+
+    if (leaderboard.length === 0) {
+        list.innerHTML = '<li>Aucun score enregistré pour le moment.</li>';
+        return;
+    }
+
+    // Tri du plus grand au plus petit
+    leaderboard.sort((a, b) => b.score - a.score);
+
+    leaderboard.forEach((entry, index) => {
+        const li = document.createElement('li');
+        let rankClass = '';
+        if (index === 0) rankClass = 'top1';
+        else if (index === 1) rankClass = 'top2';
+        else if (index === 2) rankClass = 'top3';
+
+        li.className = rankClass;
+        li.innerHTML = `<strong>#${index + 1}</strong> ${entry.name} - <span>${entry.score} pts</span>`;
+        list.appendChild(li);
+    });
+}
         window.addEventListener('DOMContentLoaded', function() {
             updateDateTime();
             createParticles();
