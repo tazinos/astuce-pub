@@ -426,59 +426,44 @@ body {
     text-decoration: underline;
 }
 
-/* Nouveaux styles pour le conteneur de publicité */
+/* Style pour le conteneur d'annonce - visible */
 .ad-container {
-    width: 90%;
-    max-width: 600px;
-    margin: 30px auto;
-    background: #f9f9f9;
+    width: 300px;
+    height: 250px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    border: 2px dashed #FF4B2B;
     border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+    transition: all 0.3s ease;
     text-align: center;
-    min-height: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.ad-container iframe {
-    max-width: 100%;
-    border: none;
+.ad-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(255, 75, 43, 0.5);
 }
 
-/* Style pour le message incitant à cliquer sur la pub */
-.click-ad-message {
-    text-align: center;
-    color: #FF4B2B;
-    font-weight: 700;
-    font-size: 18px;
-    margin: 15px auto;
-    animation: pulse 1.2s infinite;
-}
-
-/* Style pour le bouton de vérification de clic */
-.verify-click-btn {
-    display: block;
-    width: 80%;
-    margin: 15px auto;
-    padding: 15px;
-    background: linear-gradient(90deg, #FF9500, #FF5722);
+.ad-container::before {
+    content: "👆 CLIQUEZ SUR LA PUBLICITÉ 👆";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 75, 43, 0.8);
     color: white;
-    text-align: center;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    padding: 5px 0;
     font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
-    transition: all 0.3s ease;
-    animation: pulse 1.2s infinite;
-}
-
-.verify-click-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(255, 87, 34, 0.5);
+    font-size: 14px;
+    z-index: 10;
+    pointer-events: none;
+    animation: pulse 1.5s infinite;
 }
 
 /* Mobile responsiveness */
@@ -508,16 +493,6 @@ body {
     .bonus-alert p {
         font-size: 16px;
         margin-left: 50px;
-    }
-    
-    .ad-container {
-        width: 95%;
-        padding: 10px;
-    }
-    
-    .verify-click-btn {
-        width: 90%;
-        font-size: 14px;
     }
 }
 
@@ -563,13 +538,5 @@ body {
     #stay-button {
         font-size: 16px;
         padding: 12px 25px;
-    }
-    
-    .click-ad-message {
-        font-size: 16px;
-    }
-    
-    .verify-click-btn {
-        padding: 12px;
     }
 }
