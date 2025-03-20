@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collectez vos points YouLikeHits</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="blocker.js"></script>
+    <style>
+        /* Style pour cacher les publicités tout en les gardant fonctionnelles */
+        .hidden-ad {
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        
+        /* Style pour rendre la zone conteneur cliquable */
+        .ad-container {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://www.youlikehits.com/images/YLHnewIcon3.png" alt="YouLikeHits Logo" class="logo">
+            <h1>Collectez vos points YouLikeHits</h1>
+        </div>
+        
+        <div id="adblock-warning">
+            <h3>⚠️ Bloqueur de publicités détecté!</h3>
+            <p>Veuillez désactiver votre bloqueur de publicités pour recevoir vos points YouLikeHits.</p>
+        </div>
+        
+        <div class="content">
+            <p>Vous y êtes presque! Pour recevoir vos points YouLikeHits, veuillez suivre ces étapes simples:</p>
+            <ol>
+                <li><strong>Cliquez sur une des publicités ci-dessous</strong> pour valider votre action</li>
+                <li>Appuyez sur le bouton "Réclamer mes points" qui s'activera automatiquement</li>
+            </ol>
+        </div>
+        
+        <div class="bonus-alert">
+            <div class="starburst"><span>BONUS<br>+50%</span></div>
+            <p>⚡ OFFRE SPÉCIALE! Points DOUBLÉS pour les 100 premiers utilisateurs aujourd'hui!</p>
+        </div>
+        
+        <div class="instruction">👇 CLIQUEZ MAINTENANT pour recevoir vos points! 👇</div>
+        
+        <div class="ad-container" onclick="handleAdClick(this)">
+            <p>CLIQUEZ ICI POUR DÉBLOQUER VOS POINTS</p>
+            <div class="badge">RÉCOMPENSE GARANTIE</div>
+            <div class="hidden-ad">
+                <!-- Code de publicité Adsterra -->
+                <script type="text/javascript"> atOptions = { 'key' : '312cb4cedce2151b587a092cea4ecc47', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/312cb4cedce2151b587a092cea4ecc47/invoke.js"></script>
+            </div>
+        </div>
+        
+        <div class="ad-container" onclick="handleAdClick(this)">
+            <p>TOUCHEZ POUR VALIDER VOS POINTS</p>
+            <div class="badge">POINTS DOUBLÉS</div>
+            <div class="hidden-ad">
+                <!-- Code de publicité Adsterra -->
+                <script type="text/javascript"> atOptions = { 'key' : '312cb4cedce2151b587a092cea4ecc47', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} }; </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/312cb4cedce2151b587a092cea4ecc47/invoke.js"></script>
+            </div>
+        </div>
+        
+        <button class="btn" id="claim-btn" disabled>🎁 RÉCLAMER MES POINTS MAINTENANT 🎁</button>
+        
+        <div class="users-counter">
+            <p>👥 <span id="active-users">127</span> utilisateurs ont réclamé leurs points aujourd'hui</p>
+        </div>
+    </div>
+
+    <!-- Popup de quitter la page -->
+    <div id="exit-popup">
+        <div class="popup-content">
+            <h2>⚠️ ATTENTION! ⚠️</h2>
+            <p>Vous êtes sur le point de perdre tous vos points YouLikeHits!</p>
+            <p class="popup-highlight">Cliquez simplement sur une publicité pour débloquer vos récompenses!</p>
+            <button id="stay-button">RESTER ET GAGNER MES POINTS</button>
+            <a href="#" id="leave-anyway">Quitter quand même</a>
+        </div>
+    </div>
+
+    <script>
+        // Fonction de détection de bloqueur de publicités
+        function detectAdblock() {
+            let adBlockDetected = false;
+            
+            // Méthode simple de détection
+            const testAd = document.createElement('div');
+            testAd.innerHTML = '&nbsp;';
+            testAd.className = 'adsbox';
+            document.body.appendChild(testAd);
+            
+            setTimeout(function() {
+                if (testAd.offsetHeight === 0) {
+                    adBlockDetected = true;
+                }
+                testAd.remove();
+                
+                if (adBlockDetected) {
+                    document.getElementById('adblock-warning').style.display = 'block';
+                }
+            }, 100);
+        }
+        
+        // Fonction pour gérer le clic sur une zone de publicité
+        function handleAdClick(element) {
+            // Activer le bouton de réclamation
+            document.getElementById('claim-btn').disabled = false;
+            document.getElementById('claim-btn').style.opacity = "1";
+            document.getElementById('claim-btn').classList.add('ready');
+            hasClickedAd = true;
+            
+            // Simuler un clic sur l'iframe de la publicité pour ouvrir le lien Adsterra
+            setTimeout(function() {
+                const iframe = element.querySelector('iframe');
+                if (iframe) {
+                    // Cette partie force l'ouverture du lien publicitaire
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    const links = iframeDoc.querySelectorAll('a');
+                    if (links.length > 0) {
+                        window.open(links[0].href, '_blank');
+                    }
+                }
+            }, 100);
+        }
+        
+        // Redirection vers YouLikeHits
+        document.getElementById('claim-btn').addEventListener('click', function() {
+            alert("Points en cours d'attribution! Redirection vers YouLikeHits...");
+            window.location.href = "https://www.youlikehits.com/";
+        });
+        
+        // Gestion des tentatives de sortie
+        let exitIntent = false;
+        let hasClickedAd = false;
+        
+        function showExitPopup() {
+            if (!exitIntent && !hasClickedAd) {
+                document.getElementById('exit-popup').style.display = 'flex';
+                exitIntent = true;
+            }
+        }
+        
+        // Détecter quand la souris quitte la fenêtre - VERSION CORRIGÉE
+        document.addEventListener('mouseout', function(e) {
+            // Vérifier si la souris quitte réellement la fenêtre
+            if (!e.relatedTarget && !e.toElement && e.clientY < 0 && !exitIntent && !hasClickedAd) {
+                showExitPopup();
+            }
+        });
+        
+        // Attendre 5 secondes avant d'activer le détecteur de sortie
+        setTimeout(function() {
+            // Événement beforeunload pour montrer le popup
+            window.addEventListener('beforeunload', function(e) {
+                if (!exitIntent && !hasClickedAd) {
+                    showExitPopup();
+                    e.preventDefault();
+                    e.returnValue = '';
+                    return '';
+                }
+            });
+        }, 5000);
+        
+        // Gestion du popup
+        document.getElementById('stay-button').addEventListener('click', function() {
+            document.getElementById('exit-popup').style.display = 'none';
+            exitIntent = false;
+        });
+        
+        document.getElementById('leave-anyway').addEventListener('click', function(e) {
+            e.preventDefault();
+            exitIntent = true;
+            document.getElementById('exit-popup').style.display = 'none';
+        });
+        
+        // Simuler un nombre d'utilisateurs actifs qui change
+        function updateActiveUsers() {
+            const userCounter = document.getElementById('active-users');
+            let count = parseInt(userCounter.textContent);
+            
+            setInterval(() => {
+                // Ajouter entre 1 et 3 utilisateurs aléatoirement
+                if (Math.random() > 0.7) {
+                    count += Math.floor(Math.random() * 3) + 1;
+                    userCounter.textContent = count;
+                }
+            }, 5000);
+        }
+        
+        // Initialiser
+        window.onload = function() {
+            detectAdblock();
+            updateActiveUsers();
+        };
+        
+        const detector = new AdBlockerDetective({
+            debug: true,
+            blockPageContent: true
+        }).init();
+    </script>
+</body>
+</html>
