@@ -34,19 +34,25 @@
         
         <div class="instruction">👇 CLIQUEZ MAINTENANT pour recevoir vos points! 👇</div>
         
-<!-- Intégration de la publicité Adsterra (format iframe 468x60) -->
-<div class="adsterra-slot" style="width:468px; height:60px; margin:auto; text-align:center;">
-    <script type="text/javascript">
-        atOptions = {
-            'key' : '4c0680bfeabb89a4be05bb92beb1702f',
-            'format' : 'iframe',
-            'height' : 60,
-            'width' : 468,
-            'params' : {}
-        };
-    </script>
-    <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
+<!-- Zone cliquable par-dessus la pub Adsterra -->
+<div id="ad-click-wrapper" style="position: relative; width: 468px; height: 60px; margin: auto; text-align: center;">
+    <!-- Conteneur pub Adsterra -->
+    <div style="position: relative; z-index: 1;">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '4c0680bfeabb89a4be05bb92beb1702f',
+                'format' : 'iframe',
+                'height' : 60,
+                'width' : 468,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
+    </div>
+    <!-- Clic transparent au-dessus -->
+    <div id="ad-overlay" onclick="handleAdClick()" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; cursor: pointer;"></div>
 </div>
+
 
         
         <button class="btn" id="claim-btn" disabled>🎁 RÉCLAMER MES POINTS MAINTENANT 🎁</button>
