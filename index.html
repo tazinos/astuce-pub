@@ -22,7 +22,7 @@
         <div class="content">
             <p>Vous y êtes presque! Pour recevoir vos points YouLikeHits, veuillez suivre ces étapes simples:</p>
             <ol>
-                <li><strong>Cliquez sur le bouton ci-dessous</strong> pour valider votre action</li>
+                <li><strong>Cliquez sur la publicité ci-dessous</strong> pour valider votre action</li>
                 <li>Appuyez sur le bouton "Réclamer mes points" qui s'activera automatiquement</li>
             </ol>
         </div>
@@ -32,23 +32,19 @@
             <p>⚡ OFFRE SPÉCIALE! Points DOUBLÉS pour les 100 premiers utilisateurs aujourd'hui!</p>
         </div>
         
-        <div class="instruction">👇 CLIQUEZ MAINTENANT pour recevoir vos points! 👇</div>
+        <div class="instruction">👇 CLIQUEZ SUR LA PUBLICITÉ pour recevoir vos points! 👇</div>
         
-        <!-- Bouton cliquable avec le style de l'image -->
-        <div class="ad-button" id="ad-button-1" onclick="handleAdClick()">
+        <!-- Div pour la publicité Adsterra avec le style du bouton -->
+        <div id="ad-container-visible" class="ad-button">
             <p>CLIQUEZ ICI POUR DÉBLOQUER VOS POINTS</p>
             <div class="badge">RÉCOMPENSE GARANTIE</div>
+            <!-- L'iframe de la publicité sera injecté ici -->
         </div>
         
         <button class="btn" id="claim-btn" disabled>🎁 RÉCLAMER MES POINTS MAINTENANT 🎁</button>
         
         <div class="users-counter">
             <p>👥 <span id="active-users">127</span> utilisateurs ont réclamé leurs points aujourd'hui</p>
-        </div>
-        
-        <!-- Conteneur caché pour l'iframe Adsterra -->
-        <div id="ad-container" style="position:fixed; top:-1000px; left:-1000px; width:0; height:0; overflow:hidden;">
-            <!-- Le code Adsterra sera injecté ici -->
         </div>
     </div>
 
@@ -57,7 +53,7 @@
         <div class="popup-content">
             <h2>⚠️ ATTENTION! ⚠️</h2>
             <p>Vous êtes sur le point de perdre tous vos points YouLikeHits!</p>
-            <p class="popup-highlight">Cliquez simplement sur le bouton pour débloquer vos récompenses!</p>
+            <p class="popup-highlight">Cliquez simplement sur la publicité pour débloquer vos récompenses!</p>
             <button id="stay-button">RESTER ET GAGNER MES POINTS</button>
             <a href="#" id="leave-anyway">Quitter quand même</a>
         </div>
@@ -89,17 +85,12 @@
         // Variable pour suivre si l'utilisateur a cliqué sur une publicité
         let hasClickedAd = false;
         
-        // Fonction pour gérer le clic sur le bouton de publicité
-        function handleAdClick() {
-            // Activer le bouton de réclamation
-            document.getElementById('claim-btn').disabled = false;
-            document.getElementById('claim-btn').style.opacity = "1";
-            document.getElementById('claim-btn').classList.add('ready');
-            hasClickedAd = true;
+        // Charger la publicité dès le départ
+        function loadAd() {
+            const adContainer = document.getElementById('ad-container-visible');
             
-            // Injecter et charger la publicité Adsterra
-            const adContainer = document.getElementById('ad-container');
-            adContainer.innerHTML = '';
+            // Garder le texte et le badge dans des variables
+            const buttonText = adContainer.innerHTML;
             
             // Créer le script Adsterra
             const adScript = document.createElement('script');
@@ -113,16 +104,32 @@
             invokeScript.src = "//www.highperformanceformat.com/312cb4cedce2151b587a092cea4ecc47/invoke.js";
             adContainer.appendChild(invokeScript);
             
-            // Simuler un clic sur la publicité pour l'ouvrir dans une nouvelle fenêtre
-            setTimeout(function() {
+            // Ajouter un événement de clic pour toute la zone de publicité
+            adContainer.addEventListener('click', function(e) {
+                handleAdClick();
+            });
+        }
+        
+        // Fonction pour gérer le clic sur le bouton de publicité
+        function handleAdClick() {
+            // Activer le bouton de réclamation seulement si c'est le premier clic
+            if (!hasClickedAd) {
+                document.getElementById('claim-btn').disabled = false;
+                document.getElementById('claim-btn').style.opacity = "1";
+                document.getElementById('claim-btn').classList.add('ready');
+                hasClickedAd = true;
+                
+                // Ouvrir la publicité dans une nouvelle fenêtre
                 window.open("https://www.highperformanceformat.com/312cb4cedce2151b587a092cea4ecc47/invoke.js", "_blank");
-            }, 300);
+            }
         }
         
         // Redirection vers YouLikeHits
         document.getElementById('claim-btn').addEventListener('click', function() {
-            alert("Points en cours d'attribution! Redirection vers YouLikeHits...");
-            window.location.href = "https://www.youlikehits.com/";
+            if (hasClickedAd) {
+                alert("Points en cours d'attribution! Redirection vers YouLikeHits...");
+                window.location.href = "https://www.youlikehits.com/";
+            }
         });
         
         // Gestion des tentatives de sortie
@@ -186,8 +193,8 @@
         window.onload = function() {
             detectAdblock();
             updateActiveUsers();
+            loadAd();
         };
     </script>
 </body>
-</html>
 </html>
