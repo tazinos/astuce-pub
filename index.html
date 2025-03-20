@@ -34,11 +34,20 @@
         
         <div class="instruction">👇 CLIQUEZ MAINTENANT pour recevoir vos points! 👇</div>
         
-        <!-- Bouton cliquable avec le style de l'image -->
-        <div class="ad-button" id="ad-button-1" onclick="handleAdClick()">
-            <p>CLIQUEZ ICI POUR DÉBLOQUER VOS POINTS</p>
-            <div class="badge">RÉCOMPENSE GARANTIE</div>
-        </div>
+<!-- Intégration de la publicité Adsterra (format iframe 160x600) -->
+<div class="adsterra-slot" style="width:160px; height:600px; margin:auto; text-align:center;">
+    <script type="text/javascript">
+        atOptions = {
+            'key': 'f3e0040c99278a3b8c38178973258f3d',
+            'format': 'iframe',
+            'height': 600,
+            'width': 160,
+            'params': {}
+        };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/f3e0040c99278a3b8c38178973258f3d/invoke.js"></script>
+</div>
+
         
         <button class="btn" id="claim-btn" disabled>🎁 RÉCLAMER MES POINTS MAINTENANT 🎁</button>
         
