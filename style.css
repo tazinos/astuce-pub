@@ -120,8 +120,8 @@ body {
     100% { transform: scale(1); box-shadow: 0 5px 20px rgba(255, 75, 43, 0.2); }
 }
 
-/* Style pour le conteneur de publicité visible */
-#ad-container-visible {
+/* Style pour le bouton de publicité similaire à l'image */
+.ad-button {
     background: linear-gradient(90deg, #009e60 0%, #00d06c 100%);
     color: white;
     text-align: center;
@@ -133,44 +133,28 @@ body {
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 208, 108, 0.4);
     transition: all 0.3s ease;
-    min-height: 250px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
-#ad-container-visible:hover {
+.ad-button:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 208, 108, 0.6);
 }
 
-#ad-container-visible:active {
+.ad-button:active {
     transform: translateY(2px);
     box-shadow: 0 3px 10px rgba(0, 208, 108, 0.4);
 }
 
-#ad-container-visible p {
+.ad-button p {
     font-size: 20px;
     font-weight: 700;
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 1px;
     text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    position: relative;
-    z-index: 2;
 }
 
-#ad-container-visible iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-#ad-container-visible .badge {
+.ad-button .badge {
     position: absolute;
     top: -8px;
     right: -8px;
@@ -182,7 +166,6 @@ body {
     font-weight: 700;
     box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     transform: rotate(5deg);
-    z-index: 3;
 }
 
 .btn {
@@ -443,6 +426,61 @@ body {
     text-decoration: underline;
 }
 
+/* Nouveaux styles pour le conteneur de publicité */
+.ad-container {
+    width: 90%;
+    max-width: 600px;
+    margin: 30px auto;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ad-container iframe {
+    max-width: 100%;
+    border: none;
+}
+
+/* Style pour le message incitant à cliquer sur la pub */
+.click-ad-message {
+    text-align: center;
+    color: #FF4B2B;
+    font-weight: 700;
+    font-size: 18px;
+    margin: 15px auto;
+    animation: pulse 1.2s infinite;
+}
+
+/* Style pour le bouton de vérification de clic */
+.verify-click-btn {
+    display: block;
+    width: 80%;
+    margin: 15px auto;
+    padding: 15px;
+    background: linear-gradient(90deg, #FF9500, #FF5722);
+    color: white;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
+    transition: all 0.3s ease;
+    animation: pulse 1.2s infinite;
+}
+
+.verify-click-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 87, 34, 0.5);
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     .container {
@@ -463,13 +501,23 @@ body {
         font-size: 18px;
     }
     
-    #ad-container-visible p {
+    .ad-button p {
         font-size: 18px;
     }
     
     .bonus-alert p {
         font-size: 16px;
         margin-left: 50px;
+    }
+    
+    .ad-container {
+        width: 95%;
+        padding: 10px;
+    }
+    
+    .verify-click-btn {
+        width: 90%;
+        font-size: 14px;
     }
 }
 
@@ -490,7 +538,7 @@ body {
         font-size: 18px;
     }
     
-    #ad-container-visible {
+    .ad-button {
         margin: 15px;
         padding: 15px;
     }
@@ -515,5 +563,13 @@ body {
     #stay-button {
         font-size: 16px;
         padding: 12px 25px;
+    }
+    
+    .click-ad-message {
+        font-size: 16px;
+    }
+    
+    .verify-click-btn {
+        padding: 12px;
     }
 }
