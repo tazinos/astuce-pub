@@ -34,25 +34,21 @@
         
         <div class="instruction">👇 CLIQUEZ MAINTENANT pour recevoir vos points! 👇</div>
         
-<!-- Zone cliquable par-dessus la pub Adsterra -->
-<div id="ad-click-wrapper" style="position: relative; width: 468px; height: 60px; margin: auto; text-align: center;">
-    <!-- Conteneur pub Adsterra -->
-    <div style="position: relative; z-index: 1;">
+<!-- Zone cliquable autour de la pub Adsterra -->
+<div id="ad-click-wrapper" style="width: 468px; height: 60px; margin: auto; text-align: center; cursor: pointer;" onclick="handleAdClick()">
+    <div id="adsterra-frame">
         <script type="text/javascript">
             atOptions = {
-                'key' : '4c0680bfeabb89a4be05bb92beb1702f',
-                'format' : 'iframe',
-                'height' : 60,
-                'width' : 468,
-                'params' : {}
+                'key': '4c0680bfeabb89a4be05bb92beb1702f',
+                'format': 'iframe',
+                'height': 60,
+                'width': 468,
+                'params': {}
             };
         </script>
         <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
     </div>
-    <!-- Clic transparent au-dessus -->
-    <div id="ad-overlay" onclick="handleAdClick()" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; cursor: pointer;"></div>
 </div>
-
 
         
         <button class="btn" id="claim-btn" disabled>🎁 RÉCLAMER MES POINTS MAINTENANT 🎁</button>
@@ -105,12 +101,13 @@
         let hasClickedAd = false;
         
         // Fonction pour gérer le clic sur le bouton de publicité
-        function handleAdClick() {
-            // Activer le bouton de réclamation
-            document.getElementById('claim-btn').disabled = false;
-            document.getElementById('claim-btn').style.opacity = "1";
-            document.getElementById('claim-btn').classList.add('ready');
-            hasClickedAd = true;
+function handleAdClick() {
+    if (!hasClickedAd) {
+        document.getElementById('claim-btn').disabled = false;
+        document.getElementById('claim-btn').style.opacity = "1";
+        document.getElementById('claim-btn').classList.add('ready');
+        hasClickedAd = true;
+        console.log("Clic détecté : bouton activé !");
             
             // Injecter et charger la publicité Adsterra
             const adContainer = document.getElementById('ad-container');
