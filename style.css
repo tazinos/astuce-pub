@@ -1,4 +1,4 @@
-/* CSS amélioré pour YouLikeHits - Incitation maximale au clic */
+/* CSS amélioré pour YouLikeHits - Incitation au clic */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 
@@ -120,77 +120,51 @@ body {
     100% { transform: scale(1); box-shadow: 0 5px 20px rgba(255, 75, 43, 0.2); }
 }
 
-.ad-container {
-    border: none;
-    border-radius: 12px;
-    padding: 25px;
-    margin: 25px;
-    background: linear-gradient(45deg, #11998e, #38ef7d);
+/* Style pour le bouton de publicité similaire à l'image */
+.ad-button {
+    background: linear-gradient(90deg, #009e60 0%, #00d06c 100%);
+    color: white;
     text-align: center;
+    border-radius: 10px;
+    margin: 20px 25px;
+    padding: 15px 20px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
-    color: white;
-    box-shadow: 0 10px 30px rgba(56, 239, 125, 0.4);
+    box-shadow: 0 5px 15px rgba(0, 208, 108, 0.4);
+    transition: all 0.3s ease;
 }
 
-.ad-container:first-of-type {
-    background: linear-gradient(45deg, #0072ff, #00c6ff);
-    box-shadow: 0 10px 30px rgba(0, 198, 255, 0.4);
+.ad-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 208, 108, 0.6);
 }
 
-.ad-container:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        rgba(255,255,255,0) 0%, 
-        rgba(255,255,255,0.4) 50%, 
-        rgba(255,255,255,0) 100%);
-    animation: shine 2s infinite;
+.ad-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 10px rgba(0, 208, 108, 0.4);
 }
 
-@keyframes shine {
-    to { left: 100%; }
-}
-
-.ad-container:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(56, 239, 125, 0.6);
-}
-
-.ad-container:first-of-type:hover {
-    box-shadow: 0 15px 40px rgba(0, 198, 255, 0.6);
-}
-
-.ad-container:active {
-    transform: translateY(2px) scale(0.98);
-}
-
-.ad-container p {
-    font-size: 22px;
+.ad-button p {
+    font-size: 20px;
     font-weight: 700;
-    color: white;
     margin: 0;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
-.badge {
+.ad-button .badge {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #FF4B2B;
+    top: -8px;
+    right: -8px;
+    background: #ff4b2b;
     color: white;
     padding: 5px 10px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 700;
-    box-shadow: 0 3px 10px rgba(255, 75, 43, 0.4);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     transform: rotate(5deg);
 }
 
@@ -472,7 +446,7 @@ body {
         font-size: 18px;
     }
     
-    .ad-container p {
+    .ad-button p {
         font-size: 18px;
     }
     
@@ -499,9 +473,9 @@ body {
         font-size: 18px;
     }
     
-    .ad-container {
+    .ad-button {
         margin: 15px;
-        padding: 20px;
+        padding: 15px;
     }
     
     .btn {
@@ -525,4 +499,5 @@ body {
         font-size: 16px;
         padding: 12px 25px;
     }
+}
 }
