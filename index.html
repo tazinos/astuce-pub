@@ -14,7 +14,7 @@
             <h1>Collectez vos points YouLikeHits</h1>
         </div>
         
-        <div id="adblock-warning">
+        <div id="adblock-warning" style="display: none;">
             <h3>⚠️ Bloqueur de publicités détecté!</h3>
             <p>Veuillez désactiver votre bloqueur de publicités pour recevoir vos points YouLikeHits.</p>
         </div>
@@ -75,56 +75,84 @@
     </div>
 
     <script>
-        // Fonction de détection de bloqueur de publicités
-        function detectAdblock() {
-            let adBlockDetected = false;
-            
-            // Méthode simple de détection
-            const testAd = document.createElement('div');
-            testAd.innerHTML = '&nbsp;';
-            testAd.className = 'adsbox';
-            document.body.appendChild(testAd);
-            
-            setTimeout(function() {
-                if (testAd.offsetHeight === 0) {
-                    adBlockDetected = true;
-                }
-                testAd.remove();
-                
-                if (adBlockDetected) {
-                    document.getElementById('adblock-warning').style.display = 'block';
-                }
-            }, 100);
-        }
-        
         // Variable pour suivre si l'utilisateur a cliqué sur une publicité
         let hasClickedAd = false;
         
+        // Initialiser le détecteur de bloqueur de publicités
+        const detector = new AdBlockerDetective({
+            debug: true,
+            blockPageContent: false,
+            onDetected: function(method) {
+                console.log("Bloqueur détecté via: " + method);
+                document.getElementById('adblock-warning').style.display = 'block';
+                
+                // Créer un message flottant plus visible
+                const overlay = document.createElement('div');
+                overlay.id = 'adblock-overlay';
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0,0,0,0.8)';
+                overlay.style.zIndex = '9998';
+                document.body.appendChild(overlay);
+                
+                const dialog = document.createElement('div');
+                dialog.id = 'adblock-dialog';
+                dialog.style.position = 'fixed';
+                dialog.style.top = '50%';
+                dialog.style.left = '50%';
+                dialog.style.transform = 'translate(-50%, -50%)';
+                dialog.style.backgroundColor = '#ffffff';
+                dialog.style.padding = '30px';
+                dialog.style.borderRadius = '10px';
+                dialog.style.zIndex = '9999';
+                dialog.style.maxWidth = '500px';
+                dialog.style.width = '80%';
+                dialog.style.textAlign = 'center';
+                dialog.style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
+                
+                dialog.innerHTML = `
+                    <h2 style="color:#ff0000;margin-top:0">Accès bloqué</h2>
+                    <p>Nous avons détecté que vous utilisez un bloqueur de publicités.</p>
+                    <p>Ce site est financé par la publicité. Pour continuer à naviguer, veuillez désactiver votre bloqueur puis rafraîchir la page.</p>
+                    <button id="refresh-page" style="background:#ff0000;color:#fff;border:none;padding:10px 20px;margin-top:20px;border-radius:5px;cursor:pointer;font-weight:bold">Rafraîchir la page</button>
+                `;
+                
+                document.body.appendChild(dialog);
+                
+                document.getElementById('refresh-page').addEventListener('click', function() {
+                    window.location.reload();
+                });
+            }
+        }).init();
+        
         // Fonction pour gérer le clic sur le bouton de publicité
-function handleAdClick() {
-    if (!hasClickedAd) {
-        document.getElementById('claim-btn').disabled = false;
-        document.getElementById('claim-btn').style.opacity = "1";
-        document.getElementById('claim-btn').classList.add('ready');
-        hasClickedAd = true;
-        console.log("Clic détecté : bouton activé !");
-            
-            // Injecter et charger la publicité Adsterra
-            const adContainer = document.getElementById('ad-container');
-            adContainer.innerHTML = '';
-            
-            // Créer le script Adsterra
-            const adScript = document.createElement('script');
-            adScript.type = "text/javascript";
-            adScript.text = "atOptions = { 'key' : '312cb4cedce2151b587a092cea4ecc47', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };";
-            adContainer.appendChild(adScript);
-            
-            // Créer le script d'invocation
-            const invokeScript = document.createElement('script');
-            invokeScript.type = "text/javascript";
-            invokeScript.src = "//www.highperformanceformat.com/312cb4cedce2151b587a092cea4ecc47/invoke.js";
-            adContainer.appendChild(invokeScript);
-            
+        function handleAdClick() {
+            if (!hasClickedAd) {
+                document.getElementById('claim-btn').disabled = false;
+                document.getElementById('claim-btn').style.opacity = "1";
+                document.getElementById('claim-btn').classList.add('ready');
+                hasClickedAd = true;
+                console.log("Clic détecté : bouton activé !");
+                
+                // Injecter et charger la publicité Adsterra
+                const adContainer = document.getElementById('ad-container');
+                adContainer.innerHTML = '';
+                
+                // Créer le script Adsterra
+                const adScript = document.createElement('script');
+                adScript.type = "text/javascript";
+                adScript.text = "atOptions = { 'key' : '312cb4cedce2151b587a092cea4ecc47', 'format' : 'iframe', 'height' : 250, 'width' : 300, 'params' : {} };";
+                adContainer.appendChild(adScript);
+                
+                // Créer le script d'invocation
+                const invokeScript = document.createElement('script');
+                invokeScript.type = "text/javascript";
+                invokeScript.src = "//www.highperformanceformat.com/312cb4cedce2151b587a092cea4ecc47/invoke.js";
+                adContainer.appendChild(invokeScript);
+            }
         }
         
         // Redirection vers YouLikeHits
@@ -190,9 +218,8 @@ function handleAdClick() {
             }, 5000);
         }
         
-        // Initialiser
+        // Initialiser le compteur d'utilisateurs
         window.onload = function() {
-            detectAdblock();
             updateActiveUsers();
         };
     </script>
