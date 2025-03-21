@@ -44,6 +44,9 @@ class AdBlockerDetective {
             if (this.checkCount >= this.options.maxChecks) {
                 clearInterval(this.intervalId);
                 this.log("Arrêt des vérifications programmées après " + this.checkCount + " tentatives");
+                if (!this.isDetected) {
+                    this.options.onNotDetected();
+                }
             }
         }, this.options.checkInterval);
         
@@ -67,9 +70,6 @@ class AdBlockerDetective {
         }
         
         this.log("Aucun bloqueur détecté lors de cette vérification");
-        if (this.checkCount >= this.options.maxChecks - 1) {
-            this.options.onNotDetected();
-        }
         
         return false;
     }
@@ -78,20 +78,23 @@ class AdBlockerDetective {
     baitMethod() {
         const bait = document.createElement('div');
         bait.setAttribute('class', 'ad_unit ad-unit ad-zone ad-space adsbox');
-        bait.setAttribute('style', 'width: 1px; height: 1px; position: absolute; left: -10000px; top: -1000px;');
+        bait.setAttribute('id', 'ad-test-bait');
+        bait.setAttribute('style', 'width: 1px; height: 1px; position: absolute; left: -10000px; top: -1000px; background-color: #ffffff;');
         bait.innerHTML = '&nbsp;';
         document.body.appendChild(bait);
         
         // Laisser le DOM se mettre à jour
-        const detected = bait.offsetHeight === 0 || bait.offsetParent === null;
+        const detected = bait.offsetHeight === 0 || bait.offsetWidth === 0 || bait.offsetParent === null;
+        const computedStyle = window.getComputedStyle(bait);
+        const invisibleBait = computedStyle.display === 'none' || computedStyle.visibility === 'hidden' || computedStyle.opacity === '0';
         
         // Nettoyer
         if (bait.parentNode) {
             bait.parentNode.removeChild(bait);
         }
         
-        this.log("Méthode Bait: " + (detected ? "Bloqueur détecté" : "Aucun bloqueur détecté"));
-        return detected;
+        this.log("Méthode Bait: " + (detected || invisibleBait ? "Bloqueur détecté" : "Aucun bloqueur détecté"));
+        return detected || invisibleBait;
     }
     
     // MÉTHODE 2: Vérifier si des classes communes utilisées par les bloqueurs existent
@@ -117,33 +120,53 @@ class AdBlockerDetective {
     
     // MÉTHODE 3: Tester l'injection de script publicitaire
     scriptInjectionTest() {
+        const scriptIds = ['test-ad-script', 'carbon-ad-script', 'adsbygoogle-script'];
+        
+        // Vérifier si des scripts précédents ont été bloqués
+        for (let id of scriptIds) {
+            const scriptElement = document.getElementById(id);
+            if (scriptElement && scriptElement.hasAttribute('data-adblock-blocked')) {
+                this.log("Méthode Script: Script publicitaire précédemment bloqué");
+                return true;
+            }
+        }
+        
+        // Créer un nouveau script de test
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-        script.id = 'test-ad-script';
+        script.id = 'adsbygoogle-script';
         script.setAttribute('data-ad-client', 'ca-pub-1234567890123456');
+        
+        // Variable pour suivre l'état du chargement
+        let scriptLoaded = false;
         
         // Détecter les problèmes de chargement
         script.onerror = () => {
-            if (document.getElementById('test-ad-script')) {
-                document.body.removeChild(document.getElementById('test-ad-script'));
-            }
-            this.handleDetection("Méthode Script: Erreur de chargement du script publicitaire");
+            script.setAttribute('data-adblock-blocked', 'true');
+            this.log("Méthode Script: Erreur de chargement du script publicitaire");
         };
         
         script.onload = () => {
-            if (document.getElementById('test-ad-script')) {
-                document.body.removeChild(document.getElementById('test-ad-script'));
-            }
+            scriptLoaded = true;
+            this.log("Méthode Script: Script chargé avec succès");
         };
         
         document.body.appendChild(script);
         
-        // Vérification alternative basée sur la présence d'objets
+        // Vérifions si les objets Google Ads sont accessibles
         if (typeof window.adsbygoogle === 'undefined') {
             this.log("Méthode Script: Objet adsbygoogle manquant");
             return true;
         }
+        
+        // Test supplémentaire pour détecter des bloqueurs sophistiqués
+        setTimeout(() => {
+            if (!scriptLoaded && !this.isDetected) {
+                script.setAttribute('data-adblock-blocked', 'true');
+                this.handleDetection("Méthode Script: Timeout du chargement du script");
+            }
+        }, 2000);
         
         this.log("Méthode Script: Test effectué");
         return false;
@@ -157,18 +180,28 @@ class AdBlockerDetective {
             return true;
         }
         
-        // Vérifier si un placeholder d'annonce existe et est masqué
-        const adElements = document.querySelectorAll('.adsbygoogle');
-        for (let el of adElements) {
-            const style = window.getComputedStyle(el);
-            if (style.display === 'none' || style.height === '0px' || style.visibility === 'hidden') {
-                this.log("Méthode Google: Élément AdSense masqué ou caché");
-                return true;
-            }
+        // Créer un élément AdSense test
+        const adElement = document.createElement('ins');
+        adElement.className = 'adsbygoogle';
+        adElement.style.display = 'block';
+        adElement.style.width = '300px';
+        adElement.style.height = '250px';
+        adElement.setAttribute('data-ad-client', 'ca-pub-1234567890123456');
+        adElement.setAttribute('data-ad-slot', '1234567890');
+        
+        document.body.appendChild(adElement);
+        
+        // Vérifier si l'élément est masqué par un bloqueur
+        const style = window.getComputedStyle(adElement);
+        const blocked = style.display === 'none' || style.height === '0px' || style.visibility === 'hidden' || adElement.offsetHeight === 0;
+        
+        // Nettoyer
+        if (adElement.parentNode) {
+            adElement.parentNode.removeChild(adElement);
         }
         
-        this.log("Méthode Google: Aucun bloqueur détecté");
-        return false;
+        this.log("Méthode Google: " + (blocked ? "Élément AdSense masqué ou caché" : "Aucun bloqueur détecté"));
+        return blocked;
     }
     
     // MÉTHODE 5: Test avec faux div publicitaires
@@ -176,7 +209,8 @@ class AdBlockerDetective {
         const adNames = [
             'ad', 'ads', 'adsense', 'doubleclick', 
             'ad-sidebar', 'ad-zone', 'banner-ads', 
-            'sponsor', 'advert', 'adsbox'
+            'sponsor', 'advert', 'adsbox',
+            'ad-banner', 'ad-container', 'advert-container'
         ];
         
         let detected = false;
@@ -184,17 +218,19 @@ class AdBlockerDetective {
         for (let name of adNames) {
             const div = document.createElement('div');
             div.id = name;
+            div.className = 'ads ad adsbox doubleclick ad-placement carbon-ads';
             div.style.height = '10px';
             div.style.width = '10px';
             div.style.position = 'absolute';
             div.style.top = '-999px';
             div.style.left = '-999px';
+            div.innerHTML = '&nbsp;';
             
             document.body.appendChild(div);
             
             // Vérifier si le div est masqué
             const divStyle = window.getComputedStyle(div);
-            if (divStyle.display === 'none' || divStyle.height === '0px' || div.offsetHeight === 0) {
+            if (divStyle.display === 'none' || divStyle.height === '0px' || div.offsetHeight === 0 || divStyle.visibility === 'hidden' || divStyle.opacity === '0') {
                 this.log("Méthode FakeDiv: Bloqueur détecté avec l'ID " + name);
                 detected = true;
             }
@@ -227,9 +263,12 @@ class AdBlockerDetective {
                     const rule = rules[j];
                     const ruleText = rule.cssText || '';
                     
-                    if (ruleText.includes('#ad') || ruleText.includes('.ad') || 
-                        ruleText.includes('banner') && (ruleText.includes('display: none') || ruleText.includes('visibility: hidden'))) {
-                        this.log("Méthode StyleSheet: Règle CSS de bloqueur détectée");
+                    if ((ruleText.includes('#ad') || ruleText.includes('.ad') || 
+                        ruleText.includes('banner') || ruleText.includes('sponsor') || 
+                        ruleText.includes('adsby') || ruleText.includes('adsbox')) && 
+                        (ruleText.includes('display: none') || ruleText.includes('visibility: hidden') || 
+                         ruleText.includes('opacity: 0') || ruleText.includes('height: 0'))) {
+                        this.log("Méthode StyleSheet: Règle CSS de bloqueur détectée: " + ruleText);
                         return true;
                     }
                 }
@@ -247,9 +286,15 @@ class AdBlockerDetective {
     errorListener(event) {
         // Détecter les erreurs spécifiques liées aux bloqueurs
         if (event.target && (
-            (event.target.src && event.target.src.includes('ads')) ||
+            (event.target.src && (event.target.src.includes('ads') || 
+                                 event.target.src.includes('adsby') || 
+                                 event.target.src.includes('doubleclick') || 
+                                 event.target.src.includes('pagead'))) ||
             (event.target.src && event.target.src.includes('analytics')) ||
-            (event.message && (event.message.includes('adsbygoogle') || event.message.includes('analytics')))
+            (event.message && (event.message.includes('adsbygoogle') || 
+                              event.message.includes('analytics') || 
+                              event.message.includes('ad') || 
+                              event.message.includes('sponsor')))
         )) {
             this.handleDetection("Méthode ErrorListener: Erreur détectée sur ressource publicitaire");
             return true;
@@ -408,16 +453,6 @@ class AdBlockerDetective {
         return this;
     }
 }
-
-// Exemple d'utilisation
-// const detector = new AdBlockerDetective({
-//     debug: true,
-//     blockPageContent: true,
-//     onDetected: function(method) {
-//         console.log("Bloqueur détecté via: " + method);
-//         // Actions personnalisées ici
-//     }
-// }).init();
 
 // Exportation pour utilisation comme module
 if (typeof module !== 'undefined' && module.exports) {
