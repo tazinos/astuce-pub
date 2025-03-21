@@ -237,6 +237,45 @@
         
         // Ajouter un nouveau test de bloqueur après chargement complet
         window.addEventListener('load', function() {
+            // Configurer la détection de clic sur l'iframe
+            const adClickWrapper = document.getElementById('ad-click-wrapper');
+            
+            // Observer les changements d'iframe pour détecter quand l'iframe de pub est chargée
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                        // Chercher l'iframe dans l'élément adsterra-frame
+                        const iframes = adClickWrapper.querySelectorAll('iframe');
+                        if (iframes.length > 0) {
+                            // Pour chaque iframe trouvée, configurer la détection de clic
+                            iframes.forEach(function(iframe) {
+                                // Essayer de détecter les clics sur l'iframe
+                                try {
+                                    // Méthode 1: Ajouter un gestionnaire d'événements blur à la fenêtre
+                                    window.addEventListener('blur', function() {
+                                        // Si la fenêtre perd le focus (l'utilisateur a cliqué sur l'iframe et une nouvelle page s'est ouverte)
+                                        if (document.activeElement instanceof HTMLIFrameElement) {
+                                            console.log("Clic sur iframe détecté via blur!");
+                                            handleAdClick();
+                                        }
+                                    });
+                                    
+                                    console.log("Surveillance configurée pour iframe");
+                                } catch (e) {
+                                    console.error("Erreur lors de la configuration de la détection de clic sur iframe:", e);
+                                }
+                            });
+                            
+                            // Arrêter l'observation une fois les iframes trouvées
+                            observer.disconnect();
+                        }
+                    }
+                });
+            });
+            
+            // Commencer à observer l'élément qui contiendra l'iframe
+            observer.observe(adClickWrapper, { childList: true, subtree: true });
+            
             // Injecter un div appât supplémentaire pour test
             const baitTest = document.createElement('div');
             baitTest.className = 'ad_unit ad-unit ad-zone ad-space adsbox';
