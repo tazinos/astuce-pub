@@ -34,22 +34,21 @@
         
         <div class="instruction">👇 CLIQUEZ MAINTENANT pour recevoir vos points! 👇</div>
         
-<!-- Zone cliquable autour de la pub Adsterra -->
-<div id="ad-click-wrapper" style="width: 468px; height: 60px; margin: auto; text-align: center; cursor: pointer;" onclick="handleAdClick()">
-    <div id="adsterra-frame">
-        <script type="text/javascript">
-            atOptions = {
-                'key': '4c0680bfeabb89a4be05bb92beb1702f',
-                'format': 'iframe',
-                'height': 60,
-                'width': 468,
-                'params': {}
-            };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
-    </div>
-</div>
-
+        <!-- Zone cliquable autour de la pub Adsterra -->
+        <div id="ad-click-wrapper" style="width: 468px; height: 60px; margin: auto; text-align: center; cursor: pointer;" onclick="handleAdClick()">
+            <div id="adsterra-frame">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key': '4c0680bfeabb89a4be05bb92beb1702f',
+                        'format': 'iframe',
+                        'height': 60,
+                        'width': 468,
+                        'params': {}
+                    };
+                </script>
+                <script type="text/javascript" src="//www.highperformanceformat.com/4c0680bfeabb89a4be05bb92beb1702f/invoke.js"></script>
+            </div>
+        </div>
         
         <button class="btn" id="claim-btn" disabled>🎁 RÉCLAMER MES POINTS MAINTENANT 🎁</button>
         
@@ -78,53 +77,43 @@
         // Variable pour suivre si l'utilisateur a cliqué sur une publicité
         let hasClickedAd = false;
         
-        // Initialiser le détecteur de bloqueur de publicités
+        // Initialiser le détecteur de bloqueur de publicités avec plus d'options de votre AdBlockerDetective
         const detector = new AdBlockerDetective({
             debug: true,
-            blockPageContent: false,
+            blockPageContent: true,
+            checkInterval: 1500,  // Vérification toutes les 1,5 secondes
+            maxChecks: 3,        // Réduire le nombre de vérifications pour une détection plus rapide
             onDetected: function(method) {
                 console.log("Bloqueur détecté via: " + method);
                 document.getElementById('adblock-warning').style.display = 'block';
                 
-                // Créer un message flottant plus visible
-                const overlay = document.createElement('div');
-                overlay.id = 'adblock-overlay';
-                overlay.style.position = 'fixed';
-                overlay.style.top = '0';
-                overlay.style.left = '0';
-                overlay.style.width = '100%';
-                overlay.style.height = '100%';
-                overlay.style.backgroundColor = 'rgba(0,0,0,0.8)';
-                overlay.style.zIndex = '9998';
-                document.body.appendChild(overlay);
+                // Laisser le gestionnaire par défaut du AdBlockerDetective s'occuper de l'affichage
+                // Les méthodes defaultOnDetected créeront déjà un overlay et un dialog
                 
-                const dialog = document.createElement('div');
-                dialog.id = 'adblock-dialog';
-                dialog.style.position = 'fixed';
-                dialog.style.top = '50%';
-                dialog.style.left = '50%';
-                dialog.style.transform = 'translate(-50%, -50%)';
-                dialog.style.backgroundColor = '#ffffff';
-                dialog.style.padding = '30px';
-                dialog.style.borderRadius = '10px';
-                dialog.style.zIndex = '9999';
-                dialog.style.maxWidth = '500px';
-                dialog.style.width = '80%';
-                dialog.style.textAlign = 'center';
-                dialog.style.boxShadow = '0 5px 20px rgba(0,0,0,0.3)';
+                // Ajouter une possibilité de réessayer
+                const refreshButton = document.getElementById('refresh-page');
+                if(refreshButton) {
+                    refreshButton.addEventListener('click', function() {
+                        window.location.reload();
+                    });
+                }
                 
-                dialog.innerHTML = `
-                    <h2 style="color:#ff0000;margin-top:0">Accès bloqué</h2>
-                    <p>Nous avons détecté que vous utilisez un bloqueur de publicités.</p>
-                    <p>Ce site est financé par la publicité. Pour continuer à naviguer, veuillez désactiver votre bloqueur puis rafraîchir la page.</p>
-                    <button id="refresh-page" style="background:#ff0000;color:#fff;border:none;padding:10px 20px;margin-top:20px;border-radius:5px;cursor:pointer;font-weight:bold">Rafraîchir la page</button>
-                `;
+                // Désactiver le bouton de réclamation
+                document.getElementById('claim-btn').disabled = true;
+                document.getElementById('claim-btn').style.opacity = "0.5";
+                document.getElementById('claim-btn').classList.remove('ready');
+            },
+            onNotDetected: function() {
+                console.log("Aucun bloqueur détecté - activation du contenu");
+                // Vous pourriez ajouter un message positif ici si souhaité
                 
-                document.body.appendChild(dialog);
-                
-                document.getElementById('refresh-page').addEventListener('click', function() {
-                    window.location.reload();
-                });
+                // Ajouter faux script publicitaire pour tester ultérieurement
+                if (document.getElementById('test-ad-script') === null) {
+                    const testScript = document.createElement('script');
+                    testScript.id = 'test-ad-script';
+                    testScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+                    document.body.appendChild(testScript);
+                }
             }
         }).init();
         
@@ -152,6 +141,9 @@
                 invokeScript.type = "text/javascript";
                 invokeScript.src = "//www.highperformanceformat.com/312cb4cedce2151b587a092cea4ecc47/invoke.js";
                 adContainer.appendChild(invokeScript);
+                
+                // Vérifier si un bloqueur est détecté après le clic
+                detector.checkForAdBlocker();
             }
         }
         
@@ -196,6 +188,31 @@
         document.getElementById('stay-button').addEventListener('click', function() {
             document.getElementById('exit-popup').style.display = 'none';
             exitIntent = false;
+            
+            // Mettre en évidence la zone de clic
+            const adClickWrapper = document.getElementById('ad-click-wrapper');
+            adClickWrapper.style.boxShadow = '0 0 20px 5px rgba(255, 215, 0, 0.7)';
+            adClickWrapper.style.animation = 'pulse 1.5s infinite';
+            
+            // Ajouter une animation de pulsation si elle n'existe pas déjà
+            if (!document.getElementById('pulse-animation')) {
+                const style = document.createElement('style');
+                style.id = 'pulse-animation';
+                style.textContent = `
+                    @keyframes pulse {
+                        0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+                        70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+                        100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Retirer l'animation après 5 secondes
+            setTimeout(() => {
+                adClickWrapper.style.boxShadow = '';
+                adClickWrapper.style.animation = '';
+            }, 5000);
         });
         
         document.getElementById('leave-anyway').addEventListener('click', function(e) {
@@ -218,10 +235,27 @@
             }, 5000);
         }
         
-        // Initialiser le compteur d'utilisateurs
-        window.onload = function() {
+        // Ajouter un nouveau test de bloqueur après chargement complet
+        window.addEventListener('load', function() {
+            // Injecter un div appât supplémentaire pour test
+            const baitTest = document.createElement('div');
+            baitTest.className = 'ad_unit ad-unit ad-zone ad-space adsbox';
+            baitTest.id = 'ad-test-extra';
+            baitTest.style.position = 'absolute';
+            baitTest.style.left = '-10000px';
+            baitTest.style.top = '-1000px';
+            baitTest.style.width = '1px';
+            baitTest.style.height = '1px';
+            document.body.appendChild(baitTest);
+            
+            // Vérifier à nouveau après le chargement complet
+            setTimeout(() => {
+                detector.checkForAdBlocker();
+            }, 2000);
+            
+            // Initialiser le compteur d'utilisateurs
             updateActiveUsers();
-        };
+        });
     </script>
 </body>
 </html>
