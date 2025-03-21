@@ -62,11 +62,20 @@ class AdBlockerDetective {
         
         this.log("Exécution de la vérification #" + (this.checkCount + 1));
         
+        // On exige au moins 2 méthodes positives pour confirmer la détection
+        let positiveDetections = 0;
+        
         for (let method of this.detectionMethods) {
             if (method()) {
-                this.handleDetection("Méthode: " + method.name);
-                return true;
+                positiveDetections++;
+                this.log("Détection positive via: " + method.name);
             }
+        }
+        
+        // Seulement considérer comme détecté si au moins 2 méthodes sont positives
+        if (positiveDetections >= 2) {
+            this.handleDetection("Multiple méthodes: " + positiveDetections + " détections positives");
+            return true;
         }
         
         this.log("Aucun bloqueur détecté lors de cette vérification");
@@ -120,9 +129,10 @@ class AdBlockerDetective {
     
     // MÉTHODE 3: Tester l'injection de script publicitaire
     scriptInjectionTest() {
+        // Nous vérifions seulement si des scripts précédemment bloqués existent
+        // pour éviter les faux positifs lors du chargement asynchrone
         const scriptIds = ['test-ad-script', 'carbon-ad-script', 'adsbygoogle-script'];
         
-        // Vérifier si des scripts précédents ont été bloqués
         for (let id of scriptIds) {
             const scriptElement = document.getElementById(id);
             if (scriptElement && scriptElement.hasAttribute('data-adblock-blocked')) {
@@ -131,54 +141,30 @@ class AdBlockerDetective {
             }
         }
         
-        // Créer un nouveau script de test
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-        script.id = 'adsbygoogle-script';
-        script.setAttribute('data-ad-client', 'ca-pub-1234567890123456');
-        
-        // Variable pour suivre l'état du chargement
-        let scriptLoaded = false;
-        
-        // Détecter les problèmes de chargement
-        script.onerror = () => {
-            script.setAttribute('data-adblock-blocked', 'true');
-            this.log("Méthode Script: Erreur de chargement du script publicitaire");
-        };
-        
-        script.onload = () => {
-            scriptLoaded = true;
-            this.log("Méthode Script: Script chargé avec succès");
-        };
-        
-        document.body.appendChild(script);
-        
-        // Vérifions si les objets Google Ads sont accessibles
-        if (typeof window.adsbygoogle === 'undefined') {
-            this.log("Méthode Script: Objet adsbygoogle manquant");
-            return true;
+        // Créer un nouveau script de test mais ne pas baser la détection sur son chargement
+        if (!document.getElementById('adsbygoogle-script')) {
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+            script.id = 'adsbygoogle-script';
+            script.setAttribute('data-ad-client', 'ca-pub-1234567890123456');
+            
+            script.onerror = () => {
+                script.setAttribute('data-adblock-blocked', 'true');
+                this.log("Méthode Script: Erreur de chargement du script publicitaire");
+            };
+            
+            document.body.appendChild(script);
         }
         
-        // Test supplémentaire pour détecter des bloqueurs sophistiqués
-        setTimeout(() => {
-            if (!scriptLoaded && !this.isDetected) {
-                script.setAttribute('data-adblock-blocked', 'true');
-                this.handleDetection("Méthode Script: Timeout du chargement du script");
-            }
-        }, 2000);
-        
-        this.log("Méthode Script: Test effectué");
+        this.log("Méthode Script: Aucun script publicitaire bloqué détecté");
         return false;
     }
     
     // MÉTHODE 4: Test Google Ads
     googleAdTest() {
-        // Vérifier si Google Ads est bloqué
-        if (window.google && typeof window.google.ads === 'undefined') {
-            this.log("Méthode Google: Objet google.ads manquant");
-            return true;
-        }
+        // Ne pas vérifier window.google.ads car ça peut causer des faux positifs
+        // Nous utiliserons uniquement le test d'élément visuel
         
         // Créer un élément AdSense test
         const adElement = document.createElement('ins');
@@ -213,7 +199,7 @@ class AdBlockerDetective {
             'ad-banner', 'ad-container', 'advert-container'
         ];
         
-        let detected = false;
+        let detectedCount = 0;
         
         for (let name of adNames) {
             const div = document.createElement('div');
@@ -232,23 +218,25 @@ class AdBlockerDetective {
             const divStyle = window.getComputedStyle(div);
             if (divStyle.display === 'none' || divStyle.height === '0px' || div.offsetHeight === 0 || divStyle.visibility === 'hidden' || divStyle.opacity === '0') {
                 this.log("Méthode FakeDiv: Bloqueur détecté avec l'ID " + name);
-                detected = true;
+                detectedCount++;
             }
             
             // Nettoyer
             document.body.removeChild(div);
-            
-            if (detected) return true;
         }
         
-        this.log("Méthode FakeDiv: Aucun bloqueur détecté");
-        return false;
+        // Au moins 3 divs doivent être bloqués pour considérer comme positif
+        // Ceci réduit les faux positifs
+        const detected = detectedCount >= 3;
+        this.log("Méthode FakeDiv: " + (detected ? "Bloqueur détecté (" + detectedCount + " divs bloqués)" : "Aucun bloqueur détecté"));
+        return detected;
     }
     
     // MÉTHODE 6: Test des feuilles de style
     styleSheetTest() {
         // Certains bloqueurs de publicités injectent des feuilles de style
         const styleSheets = document.styleSheets;
+        let detectedRules = 0;
         
         for (let i = 0; i < styleSheets.length; i++) {
             const sheet = styleSheets[i];
@@ -269,7 +257,7 @@ class AdBlockerDetective {
                         (ruleText.includes('display: none') || ruleText.includes('visibility: hidden') || 
                          ruleText.includes('opacity: 0') || ruleText.includes('height: 0'))) {
                         this.log("Méthode StyleSheet: Règle CSS de bloqueur détectée: " + ruleText);
-                        return true;
+                        detectedRules++;
                     }
                 }
             } catch (e) {
@@ -278,8 +266,10 @@ class AdBlockerDetective {
             }
         }
         
-        this.log("Méthode StyleSheet: Aucun bloqueur détecté");
-        return false;
+        // Au moins 2 règles CSS suspectes pour considérer comme positif
+        const detected = detectedRules >= 2;
+        this.log("Méthode StyleSheet: " + (detected ? "Bloqueur détecté (" + detectedRules + " règles)" : "Aucun bloqueur détecté"));
+        return detected;
     }
     
     // Écouteur d'erreurs global
